@@ -9,7 +9,6 @@
  * @subpackage UnitTests
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL-2.1
- * @link       http://pear.horde.org/index.php?package=Auth
  */
 
 /** Load the basic test definition */
