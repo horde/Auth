@@ -12,7 +12,6 @@
  * @subpackage UnitTests
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL-2.1
- * @link       http://pear.horde.org/index.php?package=Auth
  */
 class Horde_Auth_Unit_KolabTest extends Horde_Auth_TestCase
 {
