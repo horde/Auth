@@ -23,7 +23,7 @@
   <email>slusarz@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-06-22</date>
+ <date>2017-10-17</date>
  <version>
   <release>2.2.3</release>
   <api>2.2.0</api>
@@ -38,14 +38,7 @@
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
-   <dir name="doc">
-    <dir name="Horde">
-     <dir name="Auth">
-      <file name="COPYING" role="doc" />
-     </dir> <!-- /doc/Horde/Auth -->
-    </dir> <!-- /doc/Horde -->
-   </dir> <!-- /doc -->
-    <dir name="lib">
+   <dir name="lib">
     <dir name="Horde">
      <dir name="Auth">
       <dir name="Http">
@@ -190,6 +183,7 @@
      </dir> <!-- /test/Horde/Auth -->
     </dir> <!-- /test/Horde -->
    </dir> <!-- /test -->
+   <file name="LICENSE" role="doc" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -311,7 +305,6 @@
  </dependencies>
  <phprelease>
   <filelist>
-   <install as="COPYING" name="doc/Horde/Auth/COPYING" />
    <install as="Horde/Auth.php" name="lib/Horde/Auth.php" />
    <install as="Horde/Auth/Auto.php" name="lib/Horde/Auth/Auto.php" />
    <install as="Horde/Auth/Base.php" name="lib/Horde/Auth/Base.php" />
@@ -321,6 +314,7 @@
    <install as="Horde/Auth/Exception.php" name="lib/Horde/Auth/Exception.php" />
    <install as="Horde/Auth/Ftp.php" name="lib/Horde/Auth/Ftp.php" />
    <install as="Horde/Auth/Http.php" name="lib/Horde/Auth/Http.php" />
+   <install as="Horde/Auth/Http/Remote.php" name="lib/Horde/Auth/Http/Remote.php" />
    <install as="Horde/Auth/Imap.php" name="lib/Horde/Auth/Imap.php" />
    <install as="Horde/Auth/Ipbasic.php" name="lib/Horde/Auth/Ipbasic.php" />
    <install as="Horde/Auth/Kolab.php" name="lib/Horde/Auth/Kolab.php" />
@@ -337,8 +331,7 @@
    <install as="Horde/Auth/Sql.php" name="lib/Horde/Auth/Sql.php" />
    <install as="Horde/Auth/Translation.php" name="lib/Horde/Auth/Translation.php" />
    <install as="Horde/Auth/X509.php" name="lib/Horde/Auth/X509.php" />
-   <install as="Horde/Auth/Http/Remote.php" name="lib/Horde/Auth/Http/Remote.php" />
-   <install as="locale/Horde_Auth.pot" name="locale/Horde_Auth.pot" />
+   <install as="LICENSE" name="LICENSE" />
    <install as="locale/da/LC_MESSAGES/Horde_Auth.mo" name="locale/da/LC_MESSAGES/Horde_Auth.mo" />
    <install as="locale/da/LC_MESSAGES/Horde_Auth.po" name="locale/da/LC_MESSAGES/Horde_Auth.po" />
    <install as="locale/de/LC_MESSAGES/Horde_Auth.mo" name="locale/de/LC_MESSAGES/Horde_Auth.mo" />
@@ -353,6 +346,7 @@
    <install as="locale/fi/LC_MESSAGES/Horde_Auth.po" name="locale/fi/LC_MESSAGES/Horde_Auth.po" />
    <install as="locale/fr/LC_MESSAGES/Horde_Auth.mo" name="locale/fr/LC_MESSAGES/Horde_Auth.mo" />
    <install as="locale/fr/LC_MESSAGES/Horde_Auth.po" name="locale/fr/LC_MESSAGES/Horde_Auth.po" />
+   <install as="locale/Horde_Auth.pot" name="locale/Horde_Auth.pot" />
    <install as="locale/hu/LC_MESSAGES/Horde_Auth.mo" name="locale/hu/LC_MESSAGES/Horde_Auth.mo" />
    <install as="locale/hu/LC_MESSAGES/Horde_Auth.po" name="locale/hu/LC_MESSAGES/Horde_Auth.po" />
    <install as="locale/ja/LC_MESSAGES/Horde_Auth.mo" name="locale/ja/LC_MESSAGES/Horde_Auth.mo" />
@@ -367,9 +361,9 @@
    <install as="Horde/Auth/AllTests.php" name="test/Horde/Auth/AllTests.php" />
    <install as="Horde/Auth/Autoload.php" name="test/Horde/Auth/Autoload.php" />
    <install as="Horde/Auth/bootstrap.php" name="test/Horde/Auth/bootstrap.php" />
+   <install as="Horde/Auth/fixtures/test.passwd" name="test/Horde/Auth/fixtures/test.passwd" />
    <install as="Horde/Auth/phpunit.xml" name="test/Horde/Auth/phpunit.xml" />
    <install as="Horde/Auth/TestCase.php" name="test/Horde/Auth/TestCase.php" />
-   <install as="Horde/Auth/fixtures/test.passwd" name="test/Horde/Auth/fixtures/test.passwd" />
    <install as="Horde/Auth/Unit/AuthTest.php" name="test/Horde/Auth/Unit/AuthTest.php" />
    <install as="Horde/Auth/Unit/KolabTest.php" name="test/Horde/Auth/Unit/KolabTest.php" />
    <install as="Horde/Auth/Unit/PasswdTest.php" name="test/Horde/Auth/Unit/PasswdTest.php" />
@@ -1127,7 +1121,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-06-22</date>
+   <date>2017-10-17</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
