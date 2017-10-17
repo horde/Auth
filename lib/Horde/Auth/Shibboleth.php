@@ -2,7 +2,7 @@
 /**
  * Copyright 2006 9Star Research, Inc. http://www.protectnetwork.org/
  *
- * See the enclosed file COPYING for license information (LGPL). If you did
+ * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
  *
  * @author   Cassio Nishiguchi <cassio@protectnetwork.org>

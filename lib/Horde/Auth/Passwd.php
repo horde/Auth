@@ -3,7 +3,7 @@
  * Copyright 1997-2007 Rasmus Lerdorf <rasmus@php.net>
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
- * See the enclosed file COPYING for license information (LGPL). If you did
+ * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
  *
  * @author   Rasmus Lerdorf <rasmus@php.net>
