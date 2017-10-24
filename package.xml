@@ -23,7 +23,7 @@
   <email>slusarz@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-10-20</date>
+ <date>2017-10-24</date>
  <version>
   <release>2.2.3</release>
   <api>2.2.0</api>
@@ -34,7 +34,7 @@
  </stability>
  <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
  <notes>
-* 
+* [rla] Add a dummy authentication driver.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
@@ -49,6 +49,7 @@
       <file name="Composite.php" role="php" />
       <file name="Customsql.php" role="php" />
       <file name="Cyrsql.php" role="php" />
+      <file name="Dummy.php" role="php" />
       <file name="Exception.php" role="php" />
       <file name="Ftp.php" role="php" />
       <file name="Http.php" role="php" />
@@ -172,6 +173,9 @@
         <file name="Locks.php" role="test" />
        </dir> <!-- /test/Horde/Auth/Unit/Sql -->
        <file name="AuthTest.php" role="test" />
+       <file name="DummyCryptShowTest.php" role="test" />
+       <file name="DummyCryptTest.php" role="test" />
+       <file name="DummyPlainTest.php" role="test" />
        <file name="KolabTest.php" role="test" />
        <file name="PasswdTest.php" role="test" />
       </dir> <!-- /test/Horde/Auth/Unit -->
@@ -183,6 +187,7 @@
     </dir> <!-- /test/Horde -->
    </dir> <!-- /test -->
    <file name="LICENSE" role="doc" />
+   <file name="phpunit.xml.dist" role="php" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -304,12 +309,14 @@
  </dependencies>
  <phprelease>
   <filelist>
+   <install as="" name="phpunit.xml.dist" />
    <install as="Horde/Auth.php" name="lib/Horde/Auth.php" />
    <install as="Horde/Auth/Auto.php" name="lib/Horde/Auth/Auto.php" />
    <install as="Horde/Auth/Base.php" name="lib/Horde/Auth/Base.php" />
    <install as="Horde/Auth/Composite.php" name="lib/Horde/Auth/Composite.php" />
    <install as="Horde/Auth/Customsql.php" name="lib/Horde/Auth/Customsql.php" />
    <install as="Horde/Auth/Cyrsql.php" name="lib/Horde/Auth/Cyrsql.php" />
+   <install as="Horde/Auth/Dummy.php" name="lib/Horde/Auth/Dummy.php" />
    <install as="Horde/Auth/Exception.php" name="lib/Horde/Auth/Exception.php" />
    <install as="Horde/Auth/Ftp.php" name="lib/Horde/Auth/Ftp.php" />
    <install as="Horde/Auth/Http.php" name="lib/Horde/Auth/Http.php" />
@@ -363,6 +370,9 @@
    <install as="Horde/Auth/fixtures/test.passwd" name="test/Horde/Auth/fixtures/test.passwd" />
    <install as="Horde/Auth/TestCase.php" name="test/Horde/Auth/TestCase.php" />
    <install as="Horde/Auth/Unit/AuthTest.php" name="test/Horde/Auth/Unit/AuthTest.php" />
+   <install as="Horde/Auth/Unit/DummyCryptShowTest.php" name="test/Horde/Auth/Unit/DummyCryptShowTest.php" />
+   <install as="Horde/Auth/Unit/DummyCryptTest.php" name="test/Horde/Auth/Unit/DummyCryptTest.php" />
+   <install as="Horde/Auth/Unit/DummyPlainTest.php" name="test/Horde/Auth/Unit/DummyPlainTest.php" />
    <install as="Horde/Auth/Unit/KolabTest.php" name="test/Horde/Auth/Unit/KolabTest.php" />
    <install as="Horde/Auth/Unit/PasswdTest.php" name="test/Horde/Auth/Unit/PasswdTest.php" />
    <install as="Horde/Auth/Unit/Sql/Base.php" name="test/Horde/Auth/Unit/Sql/Base.php" />
@@ -1119,10 +1129,10 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-10-20</date>
+   <date>2017-10-24</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
-* 
+* [rla] Add a dummy authentication driver.
    </notes>
   </release>
  </changelog>
