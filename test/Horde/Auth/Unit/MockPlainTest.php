@@ -1,6 +1,6 @@
 <?php
 /**
- * Test the Horde_Auth_Dummy:: class.
+ * Test the Horde_Auth_Mock:: class.
  *
  * Copyright 2017 Horde LLC (http://www.horde.org/)
  *
@@ -14,20 +14,18 @@
  * @license    http://www.horde.org/licenses/lgpl21 LGPL-2.1
  * @link       http://pear.horde.org/index.php?package=Auth
  */
-class Horde_Auth_Unit_DummyCryptTest extends Horde_Auth_TestCase
+class Horde_Auth_Unit_MockPlainTest extends Horde_Auth_TestCase
 {
     public function setUp()
     {
-        $this->driver = new Horde_Auth_Dummy(
+        $this->driver = new Horde_Auth_Mock(
             array(
                 'users' => array(
-                    'user1' => '$1$S/EKq8Dg$OJvaV8Lu1HgCXKNqAo.wG/',
-                    'user2' => '$1$aCWZiBAW$dK0DCmTGYR1gEX11pMxbi0',
-                    'tester' => '$1$sjSx+Q9x$3WIEdh1Ei16QouYx1Xkct1'
-                ),
-                'encryption' => 'crypt-md5',
-                'show_encryption' => false
-           )
+                    'user1' => 'user1pw',
+                    'user2' => 'user2pw',
+                    'tester' => 'WeirdPW92401#1'
+                )
+            )
         );
     }
 

@@ -12,7 +12,7 @@
  */
 
 /**
- * The Horde_Auth_Dummy class provides an in-memory user list.
+ * The Horde_Auth_Mock class provides an in-memory user list.
  *
  * It is meant to be used for throwaway setups, satellite systems or for
  * providing a source of administrative accounts in Composite or Cascading driver
@@ -24,7 +24,7 @@
  * @license   http://www.horde.org/licenses/lgpl21 LGPL-2.1
  * @package   Auth
  */
-class Horde_Auth_Dummy extends Horde_Auth_Base
+class Horde_Auth_Mock extends Horde_Auth_Base
 {
     /**
      * An array of capabilities, so that the driver can report which
