@@ -23,7 +23,7 @@
   <email>slusarz@horde.org</email>
   <active>yes</active>
  </lead>
- <date>2017-10-27</date>
+ <date>2017-10-29</date>
  <version>
   <release>2.2.3</release>
   <api>2.2.0</api>
@@ -34,13 +34,14 @@
  </stability>
  <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
  <notes>
-* 
+* [rla] Add Mock authentication driver.
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
    <dir name="doc">
     <dir name="Horde">
      <dir name="Auth">
+      <file name="changelog.yml" role="doc" />
       <file name="CHANGES" role="doc" />
      </dir> <!-- /doc/Horde/Auth -->
     </dir> <!-- /doc/Horde -->
@@ -64,6 +65,7 @@
       <file name="Kolab.php" role="php" />
       <file name="Ldap.php" role="php" />
       <file name="Login.php" role="php" />
+      <file name="Mock.php" role="php" />
       <file name="Msad.php" role="php" />
       <file name="Pam.php" role="php" />
       <file name="Passwd.php" role="php" />
@@ -180,6 +182,9 @@
        </dir> <!-- /test/Horde/Auth/Unit/Sql -->
        <file name="AuthTest.php" role="test" />
        <file name="KolabTest.php" role="test" />
+       <file name="MockCryptShowTest.php" role="test" />
+       <file name="MockCryptTest.php" role="test" />
+       <file name="MockPlainTest.php" role="test" />
        <file name="PasswdTest.php" role="test" />
       </dir> <!-- /test/Horde/Auth/Unit -->
       <file name="AllTests.php" role="test" />
@@ -190,6 +195,7 @@
     </dir> <!-- /test/Horde -->
    </dir> <!-- /test -->
    <file name="LICENSE" role="doc" />
+   <file name="phpunit.xml.dist" role="php" />
   </dir> <!-- / -->
  </contents>
  <dependencies>
@@ -311,6 +317,8 @@
  </dependencies>
  <phprelease>
   <filelist>
+   <install as="" name="phpunit.xml.dist" />
+   <install as="changelog.yml" name="doc/Horde/Auth/changelog.yml" />
    <install as="CHANGES" name="doc/Horde/Auth/CHANGES" />
    <install as="Horde/Auth.php" name="lib/Horde/Auth.php" />
    <install as="Horde/Auth/Auto.php" name="lib/Horde/Auth/Auto.php" />
@@ -327,6 +335,7 @@
    <install as="Horde/Auth/Kolab.php" name="lib/Horde/Auth/Kolab.php" />
    <install as="Horde/Auth/Ldap.php" name="lib/Horde/Auth/Ldap.php" />
    <install as="Horde/Auth/Login.php" name="lib/Horde/Auth/Login.php" />
+   <install as="Horde/Auth/Mock.php" name="lib/Horde/Auth/Mock.php" />
    <install as="Horde/Auth/Msad.php" name="lib/Horde/Auth/Msad.php" />
    <install as="Horde/Auth/Pam.php" name="lib/Horde/Auth/Pam.php" />
    <install as="Horde/Auth/Passwd.php" name="lib/Horde/Auth/Passwd.php" />
@@ -372,6 +381,9 @@
    <install as="Horde/Auth/TestCase.php" name="test/Horde/Auth/TestCase.php" />
    <install as="Horde/Auth/Unit/AuthTest.php" name="test/Horde/Auth/Unit/AuthTest.php" />
    <install as="Horde/Auth/Unit/KolabTest.php" name="test/Horde/Auth/Unit/KolabTest.php" />
+   <install as="Horde/Auth/Unit/MockCryptShowTest.php" name="test/Horde/Auth/Unit/MockCryptShowTest.php" />
+   <install as="Horde/Auth/Unit/MockCryptTest.php" name="test/Horde/Auth/Unit/MockCryptTest.php" />
+   <install as="Horde/Auth/Unit/MockPlainTest.php" name="test/Horde/Auth/Unit/MockPlainTest.php" />
    <install as="Horde/Auth/Unit/PasswdTest.php" name="test/Horde/Auth/Unit/PasswdTest.php" />
    <install as="Horde/Auth/Unit/Sql/Base.php" name="test/Horde/Auth/Unit/Sql/Base.php" />
    <install as="Horde/Auth/Unit/Sql/Locks.php" name="test/Horde/Auth/Unit/Sql/Locks.php" />
@@ -1127,10 +1139,10 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-10-27</date>
+   <date>2017-10-29</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
-* 
+* [rla] Add Mock authentication driver.
    </notes>
   </release>
  </changelog>
