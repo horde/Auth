@@ -138,15 +138,14 @@ class Horde_Auth_Dummy extends Horde_Auth_Base
      */
     protected function _authenticate($userId, $credentials)
     {
-        if ($this->exists($userId)) {
-            if ($this->_comparePasswords(
+        if (!$this->exists($userId) || 
+            !$this->_comparePasswords(
                 $this->_params['users'][$userId],
                 $credentials['password']
             )) {
-                return;
-            }
+            throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
         }
-        throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
+        return;
     }
 
     /**
