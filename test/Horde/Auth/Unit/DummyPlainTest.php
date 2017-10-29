@@ -1,6 +1,5 @@
 <?php
 /**
- * PHP version 5
  * Test the Horde_Auth_Dummy:: class.
  *
  * Copyright 2017 Horde LLC (http://www.horde.org/)
@@ -70,7 +69,7 @@ class Horde_Auth_Unit_DummyPlainTest extends Horde_Auth_TestCase
         $this->driver->addUser('user4', array('password' => 'foo'));
         $this->assertCount(4, $this->driver->listUsers());
         // Add somebody who already exist
-        $this->setExpectedException(Horde_Auth_Exception::class);
+        $this->setExpectedException('Horde_Auth_Exception');
         $this->driver->addUser('user4', array('password' => 'foo'));
         $this->assertCount(4, $this->driver->listUsers());
 
@@ -95,7 +94,7 @@ class Horde_Auth_Unit_DummyPlainTest extends Horde_Auth_TestCase
     public function testUpdateUserFailDoesNotExist()
     {
         // Try renaming unknown user
-        $this->setExpectedException(Horde_Auth_Exception::class);
+        $this->setExpectedException('Horde_Auth_Exception');
         $this->driver->updateUser('unknownuser', 'newname',  array('password' => 'foo'));
         $this->setUp();
     }
@@ -103,7 +102,7 @@ class Horde_Auth_Unit_DummyPlainTest extends Horde_Auth_TestCase
     public function testUpdateUserFailNewNameExists()
     {
         // Try renaming unknown user
-        $this->setExpectedException(Horde_Auth_Exception::class);
+        $this->setExpectedException('Horde_Auth_Exception');
         $this->driver->updateUser('tester', 'user1',  array('password' => 'foo'));
         $this->setUp();
     }
