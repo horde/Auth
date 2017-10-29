@@ -90,7 +90,6 @@ class Horde_Auth_Dummy extends Horde_Auth_Base
      * @param boolean $sort  Sort the users?
      *
      * @return mixed  The array of userIds.
-     * @throws Horde_Auth_Exception
      */
     public function listUsers($sort = false)
     {
@@ -122,8 +121,6 @@ class Horde_Auth_Dummy extends Horde_Auth_Base
      * Deletes a set of authentication credentials for the life of the driver.
      *
      * @param string $userId  The userId to delete.
-     *
-     * @throws Horde_Auth_Exception
      */
     public function removeUser($userId)
     {
