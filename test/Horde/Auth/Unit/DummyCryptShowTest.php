@@ -3,7 +3,7 @@
  * PHP version 5
  * Test the Horde_Auth_Dummy:: class.
  *
- * Copyright 2017-2018 Horde LLC (http://www.horde.org/)
+ * Copyright 2017 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file COPYING for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
