@@ -13,13 +13,14 @@
 
 /**
  * The Horde_Auth_Dummy class provides an in-memory user list.
+ *
  * It is meant to be used for throwaway setups, satellite systems or for
  * providing a source of administrative accounts in Composite or Cascading driver
  * The driver can also be used as a mock-like backend for integration tests
  *
  * @author    Ralf Lang <lang@b1-systems.de>
  * @category  Horde
- * @copyright 2017-2018 Horde LLC
+ * @copyright 2017 Horde LLC
  * @license   http://www.horde.org/licenses/lgpl21 LGPL-2.1
  * @package   Auth
  */
@@ -77,10 +78,10 @@ class Horde_Auth_Dummy extends Horde_Auth_Base
             throw new Horde_Auth_Exception('User already exists');
         }
         $this->_params['users'][$userId] = Horde_Auth::getCryptedPassword(
-               $credentials['password'],
-               '',
-               $this->_params['encryption'],
-               $this->_params['show_encryption']);
+             $credentials['password'],
+             '',
+             $this->_params['encryption'],
+             $this->_params['show_encryption']);
     }
 
     /**
@@ -162,10 +163,11 @@ class Horde_Auth_Dummy extends Horde_Auth_Base
      */
     protected function _comparePasswords($encrypted, $plaintext)
     {
-        return $encrypted == Horde_Auth::getCryptedPassword($plaintext,
-                                                       $encrypted,
-                                                       $this->_params['encryption'],
-                                                       $this->_params['show_encryption']);
+        return $encrypted == Horde_Auth::getCryptedPassword(
+            $plaintext,
+            $encrypted,
+            $this->_params['encryption'],
+            $this->_params['show_encryption']);
     }
 
 }
