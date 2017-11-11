@@ -56,8 +56,12 @@ dependencies:
       pear.horde.org/Horde_Imsp: ^2
       pear.horde.org/Horde_Http: ^2
       pear.horde.org/Horde_Test: ^2.1
-      pecl.php.net/pam: '*'
-      pecl.php.net/sasl: '*'
+      pecl.php.net/pam:
+        version: '*'
+        providesextension: pam
+      pecl.php.net/sasl:
+        version: '*'
+        providesextension: sasl
     ext:
       ctype: '*'
       ftp: '*'
