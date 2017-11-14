@@ -3,14 +3,8 @@
  <name>Horde_Auth</name>
  <channel>pear.horde.org</channel>
  <extends>Auth</extends>
- <summary>Horde Authentication API</summary>
+ <summary>Authentication and user management library</summary>
  <description>The Horde_Auth package provides a common interface into the various backends for the Horde authentication system.</description>
- <lead>
-  <name>Chuck Hagenbuch</name>
-  <user>chuck</user>
-  <email>chuck@horde.org</email>
-  <active>yes</active>
- </lead>
  <lead>
   <name>Jan Schneider</name>
   <user>jan</user>
@@ -18,12 +12,18 @@
   <active>yes</active>
  </lead>
  <lead>
+  <name>Chuck Hagenbuch</name>
+  <user>chuck</user>
+  <email>chuck@horde.org</email>
+  <active>no</active>
+ </lead>
+ <lead>
   <name>Michael Slusarz</name>
   <user>slusarz</user>
   <email>slusarz@horde.org</email>
-  <active>yes</active>
+  <active>no</active>
  </lead>
- <date>2017-10-30</date>
+ <date>2017-11-14</date>
  <version>
   <release>2.2.3</release>
   <api>2.2.0</api>
@@ -1129,7 +1129,7 @@
    <stability>
     <release>stable</release>
     <api>stable</api></stability>
-   <date>2017-10-30</date>
+   <date>2017-11-14</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
