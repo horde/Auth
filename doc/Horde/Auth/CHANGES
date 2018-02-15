@@ -1,6 +1,9 @@
-----------
-v2.2.3-git
-----------
+------
+v2.2.3
+------
+
+[rla] Add Cascading Authentication driver.
+[rla] Add Mock Authentication driver.
 
 
 ------
