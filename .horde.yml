@@ -9,22 +9,22 @@ type: library
 homepage: https://www.horde.org/libraries/Horde_Auth
 authors:
   -
+    name: Chuck Hagenbuch
+    user: chuck
+    email: chuck@horde.org
+    active: true
+    role: lead
+  -
     name: Jan Schneider
     user: jan
     email: jan@horde.org
     active: true
     role: lead
   -
-    name: Chuck Hagenbuch
-    user: chuck
-    email: chuck@horde.org
-    active: false
-    role: lead
-  -
     name: Michael Slusarz
     user: slusarz
     email: slusarz@horde.org
-    active: false
+    active: true
     role: lead
 version:
   release: 2.2.3
@@ -55,12 +55,8 @@ dependencies:
       pear.horde.org/Horde_Imsp: ^2
       pear.horde.org/Horde_Http: ^2
       pear.horde.org/Horde_Test: ^2.1
-      pecl.php.net/pam:
-        version: '*'
-        providesextension: pam
-      pecl.php.net/sasl:
-        version: '*'
-        providesextension: sasl
+      pecl.php.net/pam: '*'
+      pecl.php.net/sasl: '*'
     ext:
       ctype: '*'
       ftp: '*'
