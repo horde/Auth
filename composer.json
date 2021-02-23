@@ -1,18 +1,18 @@
 {
     "name": "horde/auth",
     "description": "Authentication and user management library",
-    "type": "library",
+    "type": "horde-library",
     "homepage": "https://www.horde.org/libraries/Horde_Auth",
     "license": "LGPL-2.1",
     "authors": [
         {
-            "name": "Chuck Hagenbuch",
-            "email": "chuck@horde.org",
+            "name": "Jan Schneider",
+            "email": "jan@horde.org",
             "role": "lead"
         },
         {
-            "name": "Jan Schneider",
-            "email": "jan@horde.org",
+            "name": "Chuck Hagenbuch",
+            "email": "chuck@horde.org",
             "role": "lead"
         },
         {
@@ -21,43 +21,43 @@
             "role": "lead"
         }
     ],
-    "version": "2.2.3",
-    "time": "2017-11-11",
+    "version": "3.0.0alpha1",
+    "time": "2021-02-23",
     "repositories": [
         {
-            "type": "pear",
-            "url": "https://pear.horde.org"
+            "type": "composer",
+            "url": "https://horde-satis.maintaina.com/"
         }
     ],
     "require": {
+        "horde/horde-installer-plugin": "*",
         "php": "^5.3 || ^7",
-        "pear-pear.horde.org/Horde_Exception": "^2",
-        "pear-pear.horde.org/Horde_Translation": "^2.2",
-        "pear-pear.horde.org/Horde_Util": "^2",
+        "horde/exception": "^2",
+        "horde/translation": "^2.2",
+        "horde/util": "^2",
         "ext-hash": "*"
     },
     "suggest": {
-        "pear-pear.horde.org/Horde_Db": "^2",
-        "pear-pear.horde.org/Horde_History": "^2",
-        "pear-pear.horde.org/Horde_Lock": "^2",
-        "pear-pear.horde.org/Horde_Imap_Client": "^2",
-        "pear-pear.horde.org/Horde_Kolab_Session": "^2",
-        "pear-pear.horde.org/Horde_Ldap": "^2",
-        "pear-pear.horde.org/Horde_Imsp": "^2",
-        "pear-pear.horde.org/Horde_Http": "^2",
-        "pear-pear.horde.org/Horde_Test": "^2.1",
-        "pear-pecl.php.net/pam": "*",
-        "pear-pecl.php.net/sasl": "*",
+        "horde/db": "^2",
+        "horde/history": "^2",
+        "horde/lock": "^2",
+        "horde/imap_client": "^2",
+        "horde/kolab_session": "^2",
+        "horde/ldap": "^2",
+        "horde/imsp": "^2",
+        "horde/http": "^2",
+        "horde/test": "^2.1",
+        "ext-pam": "*",
+        "ext-sasl": "*",
         "ext-ctype": "*",
         "ext-ftp": "*"
-    },
-    "replace": {
-        "pear-pear.horde.org/Horde_Auth": "2.*",
-        "pear-horde/Horde_Auth": "2.*"
     },
     "autoload": {
         "psr-0": {
             "Horde_Auth": "lib/"
+        },
+        "psr-4": {
+            "Horde\\Auth\\": "src/"
         }
     }
 }
