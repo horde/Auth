@@ -27,30 +27,34 @@
         {
             "type": "composer",
             "url": "https://horde-satis.maintaina.com/"
+        },
+        {
+            "url": "https://horde",
+            "type": "pear"
         }
     ],
     "require": {
         "horde/horde-installer-plugin": "*",
-        "php": "^5.3 || ^7",
-        "horde/exception": "^2",
-        "horde/translation": "^2.2",
-        "horde/util": "^2",
+        "php": "^7",
+        "pear-horde/exception": "^3",
+        "pear-horde/translation": "^3",
+        "pear-horde/util": "^3",
         "ext-hash": "*"
     },
     "suggest": {
-        "horde/db": "^2",
-        "horde/history": "^2",
-        "horde/lock": "^2",
-        "horde/imap_client": "^2",
-        "horde/kolab_session": "^2",
-        "horde/ldap": "^2",
-        "horde/imsp": "^2",
-        "horde/http": "^2",
-        "horde/test": "^2.1",
-        "ext-pam": "*",
-        "ext-sasl": "*",
+        "horde/db": "^3",
+        "horde/history": "^3",
+        "horde/lock": "^3",
+        "horde/imap_client": "^3",
+        "horde/kolab_session": "^3",
+        "horde/ldap": "^3",
+        "horde/imsp": "^3",
+        "horde/http": "^3",
+        "horde/test": "^3",
         "ext-ctype": "*",
-        "ext-ftp": "*"
+        "ext-ftp": "*",
+        "ext-pam": "*",
+        "ext-sasl": "*"
     },
     "autoload": {
         "psr-0": {
