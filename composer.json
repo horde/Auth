@@ -21,24 +21,20 @@
             "role": "lead"
         }
     ],
-    "version": "3.0.0alpha2",
-    "time": "2021-02-23",
+    "version": "3.0.0alpha1",
+    "time": "2021-02-24",
     "repositories": [
         {
             "type": "composer",
             "url": "https://horde-satis.maintaina.com/"
-        },
-        {
-            "url": "https://horde",
-            "type": "pear"
         }
     ],
     "require": {
         "horde/horde-installer-plugin": "*",
         "php": "^7",
-        "pear-horde/exception": "^3",
-        "pear-horde/translation": "^3",
-        "pear-horde/util": "^3",
+        "horde/exception": "^3",
+        "horde/translation": "^3",
+        "horde/util": "^3",
         "ext-hash": "*"
     },
     "suggest": {

@@ -23,14 +23,14 @@
   <email>slusarz@horde.org</email>
   <active>no</active>
  </lead>
- <date>2021-02-23</date>
+ <date>2021-02-24</date>
  <version>
-  <release>3.0.0alpha2</release>
+  <release>3.0.0alpha1</release>
   <api>3.0.0alpha1</api>
  </version>
  <stability>
-  <release>stable</release>
-  <api>stable</api>
+  <release>alpha</release>
+  <api>alpha</api>
  </stability>
  <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
  <notes>
@@ -202,27 +202,6 @@
    <pearinstaller>
     <min>1.7.0</min>
    </pearinstaller>
-   <package>
-    <name>exception</name>
-    <channel>horde</channel>
-    <min>3.0.0</min>
-    <max>4.0.0alpha1</max>
-    <exclude>4.0.0alpha1</exclude>
-   </package>
-   <package>
-    <name>translation</name>
-    <channel>horde</channel>
-    <min>3.0.0</min>
-    <max>4.0.0alpha1</max>
-    <exclude>4.0.0alpha1</exclude>
-   </package>
-   <package>
-    <name>util</name>
-    <channel>horde</channel>
-    <min>3.0.0</min>
-    <max>4.0.0alpha1</max>
-    <exclude>4.0.0alpha1</exclude>
-   </package>
    <extension>
     <name>hash</name>
    </extension>
@@ -1194,10 +1173,10 @@
     <api>3.0.0alpha1</api>
    </version>
    <stability>
-    <release>stable</release>
-    <api>stable</api>
+    <release>alpha</release>
+    <api>alpha</api>
    </stability>
-   <date>2021-02-23</date>
+   <date>2021-02-24</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
 * 
@@ -1205,7 +1184,7 @@
   </release>
   <release>
    <version>
-    <release>3.0.0alpha2</release>
+    <release>3.0.0alpha1</release>
     <api>3.0.0alpha1</api>
    </version>
    <stability>
