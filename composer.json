@@ -55,9 +55,6 @@
     "autoload": {
         "psr-0": {
             "Horde_Auth": "lib/"
-        },
-        "psr-4": {
-            "Horde\\Auth\\": "src/"
         }
     }
 }
