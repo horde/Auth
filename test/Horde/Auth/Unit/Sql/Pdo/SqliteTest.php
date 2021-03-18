@@ -2,6 +2,10 @@
 /**
  * Prepare the test setup.
  */
+namespace Horde\Auth\Unit\Sql\Pdo;
+use Horde_Auth_Unit_Sql_Base as Base;
+use \Horde_Test_Factory_Db;
+
 require_once __DIR__ . '/../Base.php';
 
 /**
@@ -10,9 +14,9 @@ require_once __DIR__ . '/../Base.php';
  * @subpackage UnitTests
  */
 
-class Horde_Auth_Unit_Sql_Pdo_SqliteTest extends Horde_Auth_Unit_Sql_Base
+class SqliteTest extends Base
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $factory_db = new Horde_Test_Factory_Db();
 

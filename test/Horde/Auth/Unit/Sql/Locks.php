@@ -18,7 +18,7 @@ class Horde_Auth_Unit_Sql_Locks extends Horde_Auth_Unit_Sql_Base
 
     protected static $skip = '';
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
@@ -47,7 +47,7 @@ class Horde_Auth_Unit_Sql_Locks extends Horde_Auth_Unit_Sql_Base
 
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!class_exists('Horde_Db')) {
             $this->markTestSkipped('The Horde_Db package is not installed!');

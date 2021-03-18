@@ -14,9 +14,13 @@
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL-2.1
  */
-class Horde_Auth_Unit_PasswdTest extends Horde_Auth_TestCase
+namespace Horde\Auth\Unit;
+use Horde_Auth_TestCase as TestCase;
+use \Horde_Auth_Passwd;
+
+class PasswdTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->driver = new Horde_Auth_Passwd(
             array('filename' => __DIR__ . '/../fixtures/test.passwd')

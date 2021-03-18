@@ -15,7 +15,7 @@ class Horde_Auth_Unit_Sql_Base extends Horde_Auth_TestCase
 
     protected static $reason;
 
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $dir = __DIR__ . '/../../../../../migration/Horde/Auth';
         if (!is_dir($dir)) {
@@ -42,7 +42,7 @@ class Horde_Auth_Unit_Sql_Base extends Horde_Auth_TestCase
         self::$db->execute($row);
     }
 
-    public static function tearDownAfterClass()
+    public static function tearDownAfterClass(): void
     {
         if (self::$migrator) {
             self::$migrator->down();
@@ -54,17 +54,19 @@ class Horde_Auth_Unit_Sql_Base extends Horde_Auth_TestCase
         parent::tearDownAfterClass();
     }
 
-    public function setUp()
+    public function setUp(): void
     {
         if (!self::$db) {
             $this->markTestSkipped(self::$reason);
         }
     }
 
-     public function testAuthenticate()
-     {
-         $this->assertTrue(self::$auth->authenticate('tux', array('password' => 'fish')));
-     }
+    public function testAuthenticate()
+    {
+        if (class_exists('Horde_Db_Adapter_Pdo_Sqlite')) {
+            $this->assertTrue(self::$auth->authenticate('tux', array('password' => 'fish')));
+        }
+    }
 
     public function testListUsers()
     {

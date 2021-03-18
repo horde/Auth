@@ -13,9 +13,12 @@
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL-2.1
  */
-class Horde_Auth_Unit_KolabTest extends Horde_Auth_TestCase
+namespace Horde\Auth\Unit;
+use Horde_Auth_TestCase as TestCase;
+
+class KolabTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         if (!interface_exists('Horde_Kolab_Session')) {
             $this->markTestSkipped('The Kolab_Session package is apparently not installed (Interface Horde_Kolab_Session is unavailable).');
