@@ -15,7 +15,7 @@
  * @license    http://www.horde.org/licenses/lgpl21 LGPL-2.1
  */
 namespace Horde\Auth\Unit;
-use Horde_Auth_TestCase as TestCase;
+use Horde\Auth\TestCase;
 use \Horde_Auth_Passwd;
 
 class PasswdTest extends TestCase

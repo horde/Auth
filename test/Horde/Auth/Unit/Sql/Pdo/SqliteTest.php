@@ -3,10 +3,9 @@
  * Prepare the test setup.
  */
 namespace Horde\Auth\Unit\Sql\Pdo;
-use Horde_Auth_Unit_Sql_Base as Base;
+use Horde\Auth\Unit\Sql\Base;
 use \Horde_Test_Factory_Db;
-
-require_once __DIR__ . '/../Base.php';
+use \Horde_Db_Migration_Migrator;
 
 /**
  * @category   Horde

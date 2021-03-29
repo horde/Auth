@@ -4,8 +4,12 @@
  * @package    Auth
  * @subpackage UnitTests
  */
+namespace Horde\Auth\Unit\Sql;
+use Horde\Auth\TestCase;
+use \Horde_Db_Migration_Migrator;
+use \Horde_Auth_Sql;
 
-class Horde_Auth_Unit_Sql_Base extends Horde_Auth_TestCase
+class Base extends TestCase
 {
     protected static $db;
 

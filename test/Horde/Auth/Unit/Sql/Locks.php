@@ -2,7 +2,7 @@
 /**
  * Prepare the test setup.
  */
-require_once __DIR__ . '/Base.php';
+namespace Horde\Auth\Unit\Sql;
 
 /**
  * @category   Horde
@@ -10,7 +10,7 @@ require_once __DIR__ . '/Base.php';
  * @subpackage UnitTests
  */
 
-class Horde_Auth_Unit_Sql_Locks extends Horde_Auth_Unit_Sql_Base
+class Locks extends Base
 {
     protected static $locksMigrator;
 

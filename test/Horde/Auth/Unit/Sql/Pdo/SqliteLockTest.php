@@ -3,10 +3,8 @@
  * Prepare the test setup.
  */
 namespace Horde\Auth\Unit\Sql\Pdo;
-use Horde_Auth_Unit_Sql_Locks as Locks;
+use Horde\Auth\Unit\Sql\Locks;
 use \Horde_Test_Factory_Db;
-
-require_once __DIR__ . '/../Locks.php';
 
 /**
  * @category   Horde
