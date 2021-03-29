@@ -13,7 +13,11 @@
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL
  */
-class Horde_Auth_TestCase extends Horde_Test_Case
+
+namespace Horde\Auth;
+use Horde_Test_Case;
+
+class TestCase extends Horde_Test_Case
 {
     public function getCredentials()
     {
