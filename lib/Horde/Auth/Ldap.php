@@ -467,9 +467,13 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
                 $params);
             $uid = Horde_String::lower($this->_params['uid']);
             foreach ($search as $val) {
+                if (!val->exists($uid)) {
+                    continue;
+                }
                 $userlist[] = $val->getValue($uid, 'single');
             }
         } catch (Horde_Ldap_Exception $e) {
+            $this->_logger->log('LDAP Search failed during listUsers action', 'ERROR');            
         }
 
         return $this->_sort($userlist, $sort);
