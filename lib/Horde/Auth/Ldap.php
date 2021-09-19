@@ -467,7 +467,7 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
                 $params);
             $uid = Horde_String::lower($this->_params['uid']);
             foreach ($search as $val) {
-                if (!val->exists($uid)) {
+                if (!$val->exists($uid)) {
                     continue;
                 }
                 $userlist[] = $val->getValue($uid, 'single');
