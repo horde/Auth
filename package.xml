@@ -23,7 +23,7 @@
   <email>slusarz@horde.org</email>
   <active>no</active>
  </lead>
- <date>2021-03-13</date>
+ <date>2021-10-06</date>
  <version>
   <release>3.0.0alpha5</release>
   <api>3.0.0alpha1</api>
@@ -34,10 +34,17 @@
  </stability>
  <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
  <notes>
-* 
+* |+
  </notes>
  <contents>
   <dir baseinstalldir="/" name="/">
+   <dir name=".github">
+    <dir name="workflows">
+     <file name="ci.yml" role="php" />
+     <file name="phpdoc.yml" role="php" />
+     <file name="update-satis.yml" role="php" />
+    </dir> <!-- /.github/workflows -->
+   </dir> <!-- /.github -->
    <dir name="doc">
     <dir name="Horde">
      <dir name="Auth">
@@ -223,6 +230,9 @@
  </dependencies>
  <phprelease>
   <filelist>
+   <install as="workflows/ci.yml" name=".github/workflows/ci.yml" />
+   <install as="workflows/phpdoc.yml" name=".github/workflows/phpdoc.yml" />
+   <install as="workflows/update-satis.yml" name=".github/workflows/update-satis.yml" />
    <install as="CHANGES" name="doc/Horde/Auth/CHANGES" />
    <install as="Horde/Auth.php" name="lib/Horde/Auth.php" />
    <install as="Horde/Auth/Auto.php" name="lib/Horde/Auth/Auto.php" />
@@ -292,61 +302,6 @@
   </filelist>
  </phprelease>
  <changelog>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
   <release>
    <version>
     <release>0.1.0</release>
@@ -1242,7 +1197,7 @@
    <date>2021-03-13</date>
    <license uri="http://www.horde.org/licenses/lgpl21">LGPL-2.1</license>
    <notes>
-* 
+* |+
    </notes>
   </release>
  </changelog>
