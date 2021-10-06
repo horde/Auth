@@ -1,5 +1,4 @@
 {
-    "minimum-stability": "dev",
     "name": "horde/auth",
     "description": "Authentication and user management library",
     "type": "library",
@@ -22,7 +21,7 @@
             "role": "lead"
         }
     ],
-    "time": "2021-03-13",
+    "time": "2021-10-06",
     "repositories": [
         {
             "type": "composer",
@@ -31,21 +30,22 @@
     ],
     "require": {
         "php": "^7",
-        "horde/exception": "^3 || dev-FRAMEWORK_6_0",
-        "horde/translation": "^3 || dev-FRAMEWORK_6_0",
-        "horde/util": "^3 || dev-FRAMEWORK_6_0",
+        "horde/exception": "^3",
+        "horde/translation": "^3",
+        "horde/util": "^3",
         "ext-hash": "*"
     },
+    "require-dev": {},
     "suggest": {
-        "horde/db": "^3 || dev-FRAMEWORK_6_0",
-        "horde/history": "^3 || dev-FRAMEWORK_6_0",
-        "horde/lock": "^3 || dev-FRAMEWORK_6_0",
-        "horde/imap_client": "^3 || dev-FRAMEWORK_6_0",
-        "horde/kolab_session": "^3 || dev-FRAMEWORK_6_0",
-        "horde/ldap": "^3 || dev-FRAMEWORK_6_0",
-        "horde/imsp": "^3 || dev-FRAMEWORK_6_0",
-        "horde/http": "^3 || dev-FRAMEWORK_6_0",
-        "horde/test": "^3 || dev-FRAMEWORK_6_0",
+        "horde/db": "^3",
+        "horde/history": "^3",
+        "horde/lock": "^3",
+        "horde/imap_client": "^3",
+        "horde/kolab_session": "^3",
+        "horde/ldap": "^3",
+        "horde/imsp": "^3",
+        "horde/http": "^3",
+        "horde/test": "^3",
         "ext-ctype": "*",
         "ext-ftp": "*",
         "ext-pam": "*",
@@ -54,6 +54,11 @@
     "autoload": {
         "psr-0": {
             "Horde_Auth": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Horde\\Auth\\Test\\": "test/"
         }
     }
 }
