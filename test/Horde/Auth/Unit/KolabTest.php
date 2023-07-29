@@ -15,12 +15,13 @@
  */
 class Horde_Auth_Unit_KolabTest extends Horde_Auth_TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         if (!interface_exists('Horde_Kolab_Session')) {
             $this->markTestSkipped('The Kolab_Session package is apparently not installed (Interface Horde_Kolab_Session is unavailable).');
         }
-        $this->kolab = $this->getMock('Horde_Kolab_Session');
+        $this->kolab = $this->getMockBuilder('Horde_Kolab_Session')
+                            ->getMock();
         $this->driver = new Horde_Auth_Kolab(array('kolab' => $this->kolab));
     }
 

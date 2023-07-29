@@ -16,7 +16,7 @@
  */
 class Horde_Auth_Unit_PasswdTest extends Horde_Auth_TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->driver = new Horde_Auth_Passwd(
             array('filename' => __DIR__ . '/../fixtures/test.passwd')

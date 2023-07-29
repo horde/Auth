@@ -12,7 +12,7 @@ require_once __DIR__ . '/../Locks.php';
 
 class Horde_Auth_Unit_Sql_Pdo_SqliteLockTest extends Horde_Auth_Unit_Sql_Locks
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $factory_db = new Horde_Test_Factory_Db();
 
