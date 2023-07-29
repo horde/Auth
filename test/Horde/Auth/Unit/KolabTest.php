@@ -13,6 +13,7 @@
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL-2.1
  */
+#[\AllowDynamicProperties]
 class Horde_Auth_Unit_KolabTest extends Horde_Auth_TestCase
 {
     public function setUp(): void
