@@ -130,6 +130,10 @@ class Horde_Auth
         $plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false
     )
     {
+        if ($encryption === 'crypt-blowfish' && $salt === '') {
+            return ($show_encrypt ? '{crypt}' : '') . password_hash($plaintext, PASSWORD_BCRYPT);
+        }
+
         /* Get the salt to use. */
         $salt = self::getSalt($encryption, $salt, $plaintext);
 
@@ -267,8 +271,8 @@ class Horde_Auth
 
         case 'crypt-blowfish':
             return $seed
-                ? preg_replace('|^(?:{crypt})?(\$2.?\$(?:\d\d\$)?[0-9A-Za-z./]{22}).*|i', '$1', $seed)
-                : '$2$' . substr(base64_encode(hash('md5', sprintf('%08X%08X%08X', mt_rand(), mt_rand(), mt_rand()), true)), 0, 21) . '$';
+                ? preg_replace('#^(?:{crypt})?(\$2[axy]\$(?:(0[4-9]|[1-2][0-9]|3[01])\$)[0-9A-Za-z./]{22}).*#i', '$1\$', $seed)
+                : '$2y$10$' . str_replace("+", ".", base64_encode(hash('md5', sprintf('%08X%08X%08X', mt_rand(), mt_rand(), mt_rand()), true))) . '$';
 
         case 'crypt-md5':
             return $seed
