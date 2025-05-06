@@ -27,7 +27,7 @@ class Base extends TestCase
             $dir = PEAR_Config::singleton()
                 ->get('data_dir', null, 'pear.horde.org')
                 . '/Horde_Auth/migration';
-            error_reporting(E_ALL | E_STRICT);
+            error_reporting(E_ALL);
         }
         self::$migrator = new Horde_Db_Migration_Migrator(
             self::$db,
