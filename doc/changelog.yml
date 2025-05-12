@@ -1,5 +1,16 @@
 ---
-3.0.0alpha7:
+3.0.0-alpha8:
+  api: 3.0.0-alpha1
+  state:
+    release: true
+    api: true
+  date: 2025-05-12
+  license:
+    identifier: LGPL-2.1-only
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    fix: The 'login' driver does not use the binary path
+3.0.0-alpha7:
   api: 3.0.0alpha1
   state:
     release: alpha
@@ -8,9 +19,10 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-    
-3.0.0alpha6:
+  notes: |-
+    Original version string was 3.0.0alpha7
+    |+
+3.0.0-alpha6:
   api: 3.0.0alpha1
   state:
     release: alpha
@@ -20,9 +32,10 @@
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
   notes: |
+    Original version string was 3.0.0alpha6
     [rla] Release for PHP 8.
     |+
-3.0.0alpha5:
+3.0.0-alpha5:
   api: 3.0.0alpha1
   state:
     release: alpha
@@ -31,8 +44,10 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-3.0.0alpha4:
+  notes: |-
+    Original version string was 3.0.0alpha5
+    |+
+3.0.0-alpha4:
   api: 3.0.0alpha1
   state:
     release: alpha
@@ -41,8 +56,10 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-3.0.0alpha3:
+  notes: |-
+    Original version string was 3.0.0alpha4
+    |+
+3.0.0-alpha3:
   api: 3.0.0alpha1
   state:
     release: alpha
@@ -51,8 +68,10 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-3.0.0alpha2:
+  notes: |-
+    Original version string was 3.0.0alpha3
+    |+
+3.0.0-alpha2:
   api: 3.0.0alpha1
   state:
     release: alpha
@@ -61,8 +80,10 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: |+
-3.0.0alpha1:
+  notes: |-
+    Original version string was 3.0.0alpha2
+    |+
+3.0.0-alpha1:
   api: 3.0.0alpha1
   state:
     release: stable
@@ -71,7 +92,8 @@
   license:
     identifier: LGPL-2.1
     uri: http://www.horde.org/licenses/lgpl21
-  notes: ~
+  notes: |
+    Original version string was 3.0.0alpha1
 2.2.2:
   api: 2.2.0
   state:
@@ -322,6 +344,46 @@
     uri: http://www.horde.org/licenses/lgpl21
   notes: |
     [mms] Use new Horde_Test layout.
+2.0.0-beta2:
+  api: 2.0.0beta1
+  state:
+    release: beta
+    api: beta
+  date: 2012-10-12
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    Original version string was 2.0.0beta2
+    [jan] Fix setting IMAP ACLs in IMAP and Cyrsql drivers.
+    [mms] Fix user management in Passwd driver.
+    [mms] Fix setting soft expiration in SQL driver.
+2.0.0-beta1:
+  api: 2.0.0beta1
+  state:
+    release: beta
+    api: beta
+  date: 2012-07-19
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    Original version string was 2.0.0beta1
+    First beta release for Horde 5.
+    [rla] Use constant for permanent lock and provide more verbose feedback (Request #11254).
+2.0.0-alpha1:
+  api: 2.0.0alpha1
+  state:
+    release: alpha
+    api: alpha
+  date: 2012-07-05
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    Original version string was 2.0.0alpha1
+    First alpha release for Horde 5.
+    [mms] Removed charset parameter for Imap and Cyrsql drivers.
 2.0.0:
   api: 2.0.0
   state:
@@ -333,43 +395,6 @@
     uri: http://www.horde.org/licenses/lgpl21
   notes: |
     First stable release for Horde 5.
-2.0.0beta2:
-  api: 2.0.0beta1
-  state:
-    release: beta
-    api: beta
-  date: 2012-10-12
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    [jan] Fix setting IMAP ACLs in IMAP and Cyrsql drivers.
-    [mms] Fix user management in Passwd driver.
-    [mms] Fix setting soft expiration in SQL driver.
-2.0.0beta1:
-  api: 2.0.0beta1
-  state:
-    release: beta
-    api: beta
-  date: 2012-07-19
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    First beta release for Horde 5.
-    [rla] Use constant for permanent lock and provide more verbose feedback (Request #11254).
-2.0.0alpha1:
-  api: 2.0.0alpha1
-  state:
-    release: alpha
-    api: alpha
-  date: 2012-07-05
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    First alpha release for Horde 5.
-    [mms] Removed charset parameter for Imap and Cyrsql drivers.
 1.4.10:
   api: 1.4.0
   state:
@@ -576,6 +601,61 @@
     [mms] Fix default userhierarchy for Cyrsql driver (Bug #9895).
     [cjh] Add crypt-sha256 and crypt-sha512 password hashes (patrickdk@patrickdk.com, Request #6991).
     [mms] Fix addUser() in Customsql driver (Bug #9832).
+1.0.0-beta1:
+  api: 1.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-16
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    Original version string was 1.0.0beta1
+    First beta release for Horde 4.
+1.0.0-alpha1:
+  api: 1.0.0
+  state:
+    release: alpha
+    api: alpha
+  date: 2011-03-08
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    Original version string was 1.0.0alpha1
+    First alpha release for Horde 4.
+    Remove dependency on horde/Core.
+    Remove all non-authentication backend related code.
+    Removed Krb5 driver.
+    Moved signup code to horde/Core.
+    Split Horde_Auth into Horde_Auth and Horde_Auth_Base components.
+1.0.0-RC2:
+  api: 1.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-29
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    Original version string was 1.0.0RC2
+    Second release candidate for Horde 4.
+    Remove Cyrus driver.
+    Remove support for pam_auth (Ticket #6860).
+1.0.0-RC1:
+  api: 1.0.0
+  state:
+    release: beta
+    api: beta
+  date: 2011-03-22
+  license:
+    identifier: LGPL-2.1
+    uri: http://www.horde.org/licenses/lgpl21
+  notes: |
+    Original version string was 1.0.0RC1
+    First release candidate for Horde 4.
 1.0.0:
   api: 1.0.0
   state:
@@ -589,57 +669,6 @@
     First stable release for Horde 4.
     [jan] Fix Cyrsql driver (Vilius Sumskas <vilius@lnk.lt>, Bug #9781).
     [jan] Add SHA-256 hashing and add SHA as alias for SHA1.
-1.0.0RC2:
-  api: 1.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-29
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    Second release candidate for Horde 4.
-    Remove Cyrus driver.
-    Remove support for pam_auth (Ticket #6860).
-1.0.0RC1:
-  api: 1.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-22
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    First release candidate for Horde 4.
-1.0.0beta1:
-  api: 1.0.0
-  state:
-    release: beta
-    api: beta
-  date: 2011-03-16
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    First beta release for Horde 4.
-1.0.0alpha1:
-  api: 1.0.0
-  state:
-    release: alpha
-    api: alpha
-  date: 2011-03-08
-  license:
-    identifier: LGPL-2.1
-    uri: http://www.horde.org/licenses/lgpl21
-  notes: |
-    First alpha release for Horde 4.
-    Remove dependency on horde/Core.
-    Remove all non-authentication backend related code.
-    Removed Krb5 driver.
-    Moved signup code to horde/Core.
-    Split Horde_Auth into Horde_Auth and Horde_Auth_Base components.
 0.1.1:
   api: 0.1.0
   state:
