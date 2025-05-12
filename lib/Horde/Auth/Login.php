@@ -71,7 +71,7 @@ class Horde_Auth_Login extends Horde_Auth_Base
             throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
         }
 
-        $proc = @popen($this->_location . ' -c /bin/true ' . $userId, 'w');
+        $proc = @popen($this->_params['location'] . ' -c /bin/true ' . $userId, 'w');
         if (!is_resource($proc)) {
             throw new Horde_Auth_Exception('', Horde_Auth::REASON_FAILED);
         }
