@@ -35,8 +35,7 @@
         "friendsofphp/php-cs-fixer": "^3",
         "phpstan/phpstan": "^2",
         "horde/db": "^3 || dev-FRAMEWORK_6_0",
-        "horde/test": "^3 || dev-FRAMEWORK_6_0",
-        "rector/rector": "^2.0"
+        "horde/test": "^3 || dev-FRAMEWORK_6_0"
     },
     "suggest": {
         "horde/db": "^3 || dev-FRAMEWORK_6_0",
@@ -62,12 +61,11 @@
         "psr-4": {
             "Horde\\Auth\\Test\\": "test/",
             "Horde\\Auth\\Test\\Sql\\": "test/sql/",
+            "Horde\\Auth\\Test\\Kolab\\": "test/kolab/",
             "Horde\\Auth\\Test\\Unit\\": "test/unit/"
         }
     },
     "config": {
         "allow-plugins": {}
-    },
-    "prefer-stable": true,
-    "minimum-stability": "dev"
+    }
 }
