@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -31,7 +32,7 @@ abstract class Horde_Auth_Base
      *
      * @var array
      */
-    protected $_capabilities = array(
+    protected $_capabilities = [
         'add'           => false,
         'authenticate'  => true,
         'groups'        => false,
@@ -42,26 +43,26 @@ abstract class Horde_Auth_Base
         'update'        => false,
         'badlogincount' => false,
         'lock'          => false,
-    );
+    ];
 
     /**
      * Hash containing parameters needed for the drivers.
      *
      * @var array
      */
-    protected $_params = array();
+    protected $_params = [];
 
     /**
      * The credentials currently being authenticated.
      *
      * @var array
      */
-    protected $_credentials = array(
+    protected $_credentials = [
         'change' => false,
-        'credentials' => array(),
+        'credentials' => [],
         'expire' => null,
-        'userId' => ''
-    );
+        'userId' => '',
+    ];
 
     /**
      * Logger object.
@@ -104,7 +105,7 @@ abstract class Horde_Auth_Base
      *     - login_block_time:  (integer, options) How many minutes should
      *                          autoblocking last? 0 means no expiration.
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (isset($params['logger'])) {
             $this->_logger = $params['logger'];
@@ -123,9 +124,9 @@ abstract class Horde_Auth_Base
             unset($params['history_api']);
         }
 
-        $params = array_merge(array(
-            'default_user' => ''
-        ), $params);
+        $params = array_merge([
+            'default_user' => '',
+        ], $params);
 
         $this->_params = $params;
     }
@@ -266,8 +267,10 @@ abstract class Horde_Auth_Base
             throw new Horde_Auth_Exception($e);
         }
 
-        throw new Horde_Auth_Exception('User is already locked',
-                                       Horde_Auth::REASON_LOCKED);
+        throw new Horde_Auth_Exception(
+            'User is already locked',
+            Horde_Auth::REASON_LOCKED
+        );
     }
 
     /**
@@ -286,7 +289,10 @@ abstract class Horde_Auth_Base
 
         try {
             $locks = $this->_lock_api->getLocks(
-                'horde_auth', 'login:' . $userId, Horde_Lock::TYPE_EXCLUSIVE);
+                'horde_auth',
+                'login:' . $userId,
+                Horde_Lock::TYPE_EXCLUSIVE
+            );
             $lock_id = key($locks);
             if ($lock_id) {
                 $this->_lock_api->clearLock($lock_id);
@@ -316,9 +322,12 @@ abstract class Horde_Auth_Base
             throw new Horde_Auth_Exception('Unsupported.');
         }
 
-        try  {
+        try {
             $locks = $this->_lock_api->getLocks(
-                'horde_auth', 'login:' . $userId, Horde_Lock::TYPE_EXCLUSIVE);
+                'horde_auth',
+                'login:' . $userId,
+                Horde_Lock::TYPE_EXCLUSIVE
+            );
         } catch (Horde_Lock_Exception $e) {
             throw new Horde_Auth_Exception($e);
         }
@@ -326,8 +335,8 @@ abstract class Horde_Auth_Base
         if ($show_details) {
             $lock_id = key($locks);
             return empty($lock_id)
-                ? array('locked' => false, 'lock_timeout' => 0)
-                : array('locked' => true, 'lock_timeout' => $locks[$lock_id]['lock_expiry_timestamp']);
+                ? ['locked' => false, 'lock_timeout' => 0]
+                : ['locked' => true, 'lock_timeout' => $locks[$lock_id]['lock_expiry_timestamp']];
         }
 
         return !empty($locks);
@@ -350,7 +359,8 @@ abstract class Horde_Auth_Base
         try {
             $this->_history_api->log(
                 $history_identifier,
-                array('action' => 'login_failed', 'who' => $userId));
+                ['action' => 'login_failed', 'who' => $userId]
+            );
             $history_log = $this->_history_api->getHistory($history_identifier);
             if ($this->_params['login_block_count'] > 0 &&
                 $this->_params['login_block_count'] <= $history_log->count() &&
@@ -376,7 +386,7 @@ abstract class Horde_Auth_Base
         }
 
         try {
-            $this->_history_api->removeByNames(array($userId . '@logins.failed'));
+            $this->_history_api->removeByNames([$userId . '@logins.failed']);
         } catch (Horde_History_Exception $e) {
             throw new Horde_Auth_Exception($e);
         }
@@ -435,9 +445,9 @@ abstract class Horde_Auth_Base
         try {
             $users = $this->listUsers();
         } catch (Horde_Auth_Exception $e) {
-            return array();
+            return [];
         }
-        $matches = array();
+        $matches = [];
         foreach ($users as $user) {
             if (Horde_String::ipos($user, $search) !== false) {
                 $matches[] = $user;
@@ -517,9 +527,8 @@ abstract class Horde_Auth_Base
      */
     public function getParam($param)
     {
-        return isset($this->_params[$param])
-            ? $this->_params[$param]
-            : null;
+        return $this->_params[$param]
+            ?? null;
     }
 
     /**
@@ -541,9 +550,8 @@ abstract class Horde_Auth_Base
             return $this->_credentials;
         }
 
-        return isset($this->_credentials[$name])
-            ? $this->_credentials[$name]
-            : null;
+        return $this->_credentials[$name]
+            ?? null;
     }
 
     /**
@@ -556,21 +564,21 @@ abstract class Horde_Auth_Base
     public function setCredential($type, $value)
     {
         switch ($type) {
-        case 'change':
-            $this->_credentials['change'] = (bool)$value;
-            break;
+            case 'change':
+                $this->_credentials['change'] = (bool) $value;
+                break;
 
-        case 'credentials':
-            $this->_credentials['credentials'] = array_filter(array_merge($this->_credentials['credentials'], $value));
-            break;
+            case 'credentials':
+                $this->_credentials['credentials'] = array_filter(array_merge($this->_credentials['credentials'], $value));
+                break;
 
-        case 'expire':
-            $this->_credentials['expire'] = intval($value);
-            break;
+            case 'expire':
+                $this->_credentials['expire'] = intval($value);
+                break;
 
-        case 'userId':
-            $this->_credentials['userId'] = strval($value);
-            break;
+            case 'userId':
+                $this->_credentials['userId'] = strval($value);
+                break;
         }
     }
 
@@ -583,10 +591,10 @@ abstract class Horde_Auth_Base
      */
     public function setError($type, $msg = null)
     {
-        $this->_error = array(
+        $this->_error = [
             'msg' => $msg,
-            'type' => $type
-        );
+            'type' => $type,
+        ];
     }
 
     /**

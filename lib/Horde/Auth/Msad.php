@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
  *
@@ -31,9 +32,9 @@ class Horde_Auth_Msad extends Horde_Auth_Ldap
      *
      * @throws Horde_Auth_Exception
      */
-    public function __construct($params = array())
+    public function __construct($params = [])
     {
-        $params = array_merge(array(
+        $params = array_merge([
             'adduser' => true,
             'authId' => 'initials',
             'encryption' => 'msad',
@@ -41,11 +42,11 @@ class Horde_Auth_Msad extends Horde_Auth_Ldap
             'password_expiration' => 'no',
             'port' => 389,
             'ssl' => false,
-            'uid' => array('samaccountname')
-        ), $params);
+            'uid' => ['samaccountname'],
+        ], $params);
 
         if (!is_array($params['uid'])) {
-            $params['uid'] = array($params['uid']);
+            $params['uid'] = [$params['uid']];
         }
 
         /* Ensure we've been provided with all of the necessary parameters. */
@@ -54,13 +55,13 @@ class Horde_Auth_Msad extends Horde_Auth_Ldap
 
         /* Adjust capabilities: depending on if SSL encryption is
          * enabled or not */
-        $this->_capabilities = array(
+        $this->_capabilities = [
             'add'           => ($params['ssl'] || $params['adduser']),
             'list'          => true,
             'remove'        => true,
             'resetpassword' => $params['ssl'],
-            'update'        => $params['ssl']
-        );
+            'update'        => $params['ssl'],
+        ];
 
         parent::__construct($params);
     }
@@ -81,9 +82,8 @@ class Horde_Auth_Msad extends Horde_Auth_Ldap
         if (isset($credentials['ldap'])) {
             $dn = $credentials['ldap']['dn'];
         } else {
-            $basedn = isset($credentials['basedn'])
-                ? $credentials['basedn']
-                : $this->_params['basedn'];
+            $basedn = $credentials['basedn']
+                ?? $this->_params['basedn'];
 
             /* Set a default CN */
             $dn = 'cn=' . $accountName . ',' . $basedn;
@@ -102,9 +102,12 @@ class Horde_Auth_Msad extends Horde_Auth_Ldap
             if ($this->_params['ssl']) {
                 $entry["AccountDisabled"] = false;
             }
-            $entry['userPassword'] = Horde_Auth::getCryptedPassword($credentials['password'],'',
-                                                               $this->_params['encryption'],
-                                                               false);
+            $entry['userPassword'] = Horde_Auth::getCryptedPassword(
+                $credentials['password'],
+                '',
+                $this->_params['encryption'],
+                false
+            );
 
             if (isset($this->_params['binddn'])) {
                 $entry['manager'] = $this->_params['binddn'];
@@ -156,9 +159,13 @@ class Horde_Auth_Msad extends Horde_Auth_Ldap
      *
      * @throws Horde_Auth_Exception
      */
-    public function updateUser($oldId, $newId, $credentials, $olddn = null,
-                               $newdn = null)
-    {
+    public function updateUser(
+        $oldId,
+        $newId,
+        $credentials,
+        $olddn = null,
+        $newdn = null
+    ) {
         /* Connect to the MSAD server. */
         $this->_connect();
 
@@ -170,9 +177,12 @@ class Horde_Auth_Msad extends Horde_Auth_Ldap
 
             /* Encrypt the new password */
             if (isset($credentials['password'])) {
-                $entry['userpassword'] = Horde_Auth::getCryptedPassword($credentials['password'],'',
-                                                                   $this->_params['encryption'],
-                                                                   true);
+                $entry['userpassword'] = Horde_Auth::getCryptedPassword(
+                    $credentials['password'],
+                    '',
+                    $this->_params['encryption'],
+                    true
+                );
             }
         }
 
@@ -204,7 +214,7 @@ class Horde_Auth_Msad extends Horde_Auth_Ldap
     {
         /* Get a new random password. */
         $password = Horde_Auth::genRandomPassword() . '/';
-        $this->updateUser($user_id, $user_id, array('userPassword' => $password));
+        $this->updateUser($user_id, $user_id, ['userPassword' => $password]);
 
         return $password;
     }
@@ -233,9 +243,11 @@ class Horde_Auth_Msad extends Horde_Auth_Ldap
         }
 
         if (isset($this->_params['binddn'])) {
-            $bind = ldap_bind($this->_ds,
-                              $this->_params['binddn'],
-                              $this->_params['password']);
+            $bind = ldap_bind(
+                $this->_ds,
+                $this->_params['binddn'],
+                $this->_params['password']
+            );
         } else {
             $bind = ldap_bind($this->_ds);
         }
@@ -256,14 +268,16 @@ class Horde_Auth_Msad extends Horde_Auth_Ldap
     {
         /* Search for the user's full DN. */
         foreach ($this->_params['uid'] as $uid) {
-            $entries = array($uid);
+            $entries = [$uid];
             if ($uid != $this->_params['authId']) {
                 $entries[] = $this->_params['authId'];
             }
-            $search = @ldap_search($this->_ds, $this->_params['basedn'],
-                               $uid . '=' . $userId,
-                               $entries
-                               );
+            $search = @ldap_search(
+                $this->_ds,
+                $this->_params['basedn'],
+                $uid . '=' . $userId,
+                $entries
+            );
             /* Searching the tree is not successful */
             if (!$search) {
                 throw new Horde_Auth_Exception('Could not search the MSAD server.');

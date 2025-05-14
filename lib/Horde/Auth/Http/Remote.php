@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2007-2017 Horde LLC (http://www.horde.org/)
  *
@@ -34,7 +35,7 @@ class Horde_Auth_Http_Remote extends Horde_Auth_Base
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!isset($params['url']) || !isset($params['client'])) {
             throw new InvalidArgumentException();

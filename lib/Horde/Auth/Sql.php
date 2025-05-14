@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -32,14 +33,14 @@ class Horde_Auth_Sql extends Horde_Auth_Base
      *
      * @var array
      */
-    protected $_capabilities = array(
+    protected $_capabilities = [
         'add'           => true,
         'list'          => true,
         'remove'        => true,
         'resetpassword' => true,
         'update'        => true,
         'authenticate'  => true,
-    );
+    ];
 
     /**
      * Handle for the current database connection.
@@ -82,7 +83,7 @@ class Horde_Auth_Sql extends Horde_Auth_Base
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!isset($params['db'])) {
             throw new InvalidArgumentException('Missing db parameter.');
@@ -90,7 +91,7 @@ class Horde_Auth_Sql extends Horde_Auth_Base
         $this->_db = $params['db'];
         unset($params['db']);
 
-        $params = array_merge(array(
+        $params = array_merge([
             'encryption' => 'md5-hex',
             'password_field' => 'user_pass',
             'show_encryption' => false,
@@ -99,8 +100,8 @@ class Horde_Auth_Sql extends Horde_Auth_Base
             'soft_expiration_field' => null,
             'soft_expiration_window' => null,
             'hard_expiration_field' => null,
-            'hard_expiration_window' => null
-        ), $params);
+            'hard_expiration_window' => null,
+        ], $params);
 
         parent::__construct($params);
 
@@ -128,10 +129,12 @@ class Horde_Auth_Sql extends Horde_Auth_Base
     protected function _authenticate($userId, $credentials)
     {
         /* Build the SQL query. */
-        $query = sprintf('SELECT * FROM %s WHERE %s = ?',
-                         $this->_params['table'],
-                         $this->_params['username_field']);
-        $values = array($userId);
+        $query = sprintf(
+            'SELECT * FROM %s WHERE %s = ?',
+            $this->_params['table'],
+            $this->_params['username_field']
+        );
+        $values = [$userId];
 
         try {
             $row = $this->_db->selectOne($query, $values);
@@ -170,16 +173,20 @@ class Horde_Auth_Sql extends Horde_Auth_Base
     public function addUser($userId, $credentials)
     {
         /* Build the SQL query. */
-        $query = sprintf('INSERT INTO %s (%s, %s',
-                         $this->_params['table'],
-                         $this->_params['username_field'],
-                         $this->_params['password_field']);
+        $query = sprintf(
+            'INSERT INTO %s (%s, %s',
+            $this->_params['table'],
+            $this->_params['username_field'],
+            $this->_params['password_field']
+        );
         $query_values_part = ' VALUES (?, ?';
-        $values = array($userId,
-                        Horde_Auth::getCryptedPassword($credentials['password'],
-                                                  '',
-                                                  $this->_params['encryption'],
-                                                  $this->_params['show_encryption']));
+        $values = [$userId,
+            Horde_Auth::getCryptedPassword(
+                $credentials['password'],
+                '',
+                $this->_params['encryption'],
+                $this->_params['show_encryption']
+            )];
         if (!empty($this->_params['soft_expiration_field'])) {
             $query .= sprintf(', %s', $this->_params['soft_expiration_field']);
             $query_values_part .= ', ?';
@@ -211,7 +218,7 @@ class Horde_Auth_Sql extends Horde_Auth_Base
     public function updateUser($oldID, $newID, $credentials)
     {
         $query = sprintf('UPDATE %s SET ', $this->_params['table']);
-        $values = array();
+        $values = [];
 
         /* Build the SQL query. */
         $query .= $this->_params['username_field'] . ' = ?';
@@ -220,12 +227,12 @@ class Horde_Auth_Sql extends Horde_Auth_Base
         $query .= ', ' . $this->_params['password_field'] . ' = ?';
         $values[] = Horde_Auth::getCryptedPassword($credentials['password'], '', $this->_params['encryption'], $this->_params['show_encryption']);
         if (!empty($this->_params['soft_expiration_field'])) {
-                $query .= ', ' . $this->_params['soft_expiration_field'] . ' = ?';
-                $values[] =  $this->_calc_expiration('soft');
+            $query .= ', ' . $this->_params['soft_expiration_field'] . ' = ?';
+            $values[] =  $this->_calc_expiration('soft');
         }
         if (!empty($this->_params['hard_expiration_field'])) {
-                $query .= ', ' . $this->_params['hard_expiration_field'] . ' = ?';
-                $values[] =  $this->_calc_expiration('hard');
+            $query .= ', ' . $this->_params['hard_expiration_field'] . ' = ?';
+            $values[] =  $this->_calc_expiration('hard');
         }
 
         $query .= sprintf(' WHERE %s = ?', $this->_params['username_field']);
@@ -253,20 +260,24 @@ class Horde_Auth_Sql extends Horde_Auth_Base
         $password = Horde_Auth::genRandomPassword();
 
         /* Build the SQL query. */
-        $query = sprintf('UPDATE %s SET %s = ?',
-                         $this->_params['table'],
-                         $this->_params['password_field']);
-        $values = array(Horde_Auth::getCryptedPassword($password,
-                                                  '',
-                                                  $this->_params['encryption'],
-                                                  $this->_params['show_encryption']));
+        $query = sprintf(
+            'UPDATE %s SET %s = ?',
+            $this->_params['table'],
+            $this->_params['password_field']
+        );
+        $values = [Horde_Auth::getCryptedPassword(
+            $password,
+            '',
+            $this->_params['encryption'],
+            $this->_params['show_encryption']
+        )];
         if (!empty($this->_params['soft_expiration_field'])) {
-                $query .= ', ' . $this->_params['soft_expiration_field'] . ' = ?';
-                $values[] =  $this->_calc_expiration('soft');
+            $query .= ', ' . $this->_params['soft_expiration_field'] . ' = ?';
+            $values[] =  $this->_calc_expiration('soft');
         }
         if (!empty($this->_params['hard_expiration_field'])) {
-                $query .= ', ' . $this->_params['hard_expiration_field'] . ' = ?';
-                $values[] =  $this->_calc_expiration('hard');
+            $query .= ', ' . $this->_params['hard_expiration_field'] . ' = ?';
+            $values[] =  $this->_calc_expiration('hard');
         }
         $query .= sprintf(' WHERE %s = ?', $this->_params['username_field']);
         $values[] = $userId;
@@ -289,10 +300,12 @@ class Horde_Auth_Sql extends Horde_Auth_Base
     public function removeUser($userId)
     {
         /* Build the SQL query. */
-        $query = sprintf('DELETE FROM %s WHERE %s = ?',
-                         $this->_params['table'],
-                         $this->_params['username_field']);
-        $values = array($userId);
+        $query = sprintf(
+            'DELETE FROM %s WHERE %s = ?',
+            $this->_params['table'],
+            $this->_params['username_field']
+        );
+        $values = [$userId];
 
         try {
             $this->_db->delete($query, $values);
@@ -312,12 +325,16 @@ class Horde_Auth_Sql extends Horde_Auth_Base
     public function listUsers($sort = false)
     {
         /* Build the SQL query. */
-        $query = sprintf('SELECT %s FROM %s',
-                         $this->_params['username_field'],
-                         $this->_params['table']);
+        $query = sprintf(
+            'SELECT %s FROM %s',
+            $this->_params['username_field'],
+            $this->_params['table']
+        );
         if ($sort) {
-            $query .= sprintf(' ORDER BY %s ASC',
-                               $this->_params['username_field']);
+            $query .= sprintf(
+                ' ORDER BY %s ASC',
+                $this->_params['username_field']
+            );
         }
         try {
             return $this->_db->selectValues($query);
@@ -336,13 +353,15 @@ class Horde_Auth_Sql extends Horde_Auth_Base
     public function exists($userId)
     {
         /* Build the SQL query. */
-        $query = sprintf('SELECT 1 FROM %s WHERE %s = ?',
-                         $this->_params['table'],
-                         $this->_params['username_field']);
-        $values = array($userId);
+        $query = sprintf(
+            'SELECT 1 FROM %s WHERE %s = ?',
+            $this->_params['table'],
+            $this->_params['username_field']
+        );
+        $values = [$userId];
 
         try {
-            return (bool)$this->_db->selectValue($query, $values);
+            return (bool) $this->_db->selectValue($query, $values);
         } catch (Horde_Db_Exception $e) {
             return false;
         }
@@ -359,10 +378,12 @@ class Horde_Auth_Sql extends Horde_Auth_Base
      */
     protected function _comparePasswords($encrypted, $plaintext)
     {
-        return $encrypted == Horde_Auth::getCryptedPassword($plaintext,
-                                                       $encrypted,
-                                                       $this->_params['encryption'],
-                                                       $this->_params['show_encryption']);
+        return $encrypted == Horde_Auth::getCryptedPassword(
+            $plaintext,
+            $encrypted,
+            $this->_params['encryption'],
+            $this->_params['show_encryption']
+        );
     }
 
     /**
@@ -378,7 +399,7 @@ class Horde_Auth_Sql extends Horde_Auth_Base
             return null;
         } else {
             $now = new Horde_Date(time());
-            return $now->add(array('mday' => $this->_params[$type.'_expiration_window']))->timestamp();
+            return $now->add(['mday' => $this->_params[$type . '_expiration_window']])->timestamp();
         }
     }
 }

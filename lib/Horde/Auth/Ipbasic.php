@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -33,9 +34,9 @@ class Horde_Auth_Ipbasic extends Horde_Auth_Base
      *
      * @var array
      */
-    protected $_capabilities = array(
-        'transparent' => true
-    );
+    protected $_capabilities = [
+        'transparent' => true,
+    ];
 
     /**
      * Constructor.
@@ -45,12 +46,12 @@ class Horde_Auth_Ipbasic extends Horde_Auth_Base
      * 'blocks' - (array) CIDR masks which are allowed access.
      * </pre>
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (empty($params['blocks'])) {
-            $params['blocks'] = array();
+            $params['blocks'] = [];
         } elseif (!is_array($params['blocks'])) {
-            $params['blocks'] = array($params['blocks']);
+            $params['blocks'] = [$params['blocks']];
         }
 
         parent::__construct($params);
@@ -102,7 +103,7 @@ class Horde_Auth_Ipbasic extends Horde_Auth_Base
     protected function _addressWithinCIDR($address, $cidr)
     {
         $address = ip2long($address);
-        list($quad, $bits) = explode('/', $cidr);
+        [$quad, $bits] = explode('/', $cidr);
         $bits = intval($bits);
         $quad = ip2long($quad);
 

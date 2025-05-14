@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -49,21 +50,21 @@ class Horde_Auth_Smb extends Horde_Auth_Base
      * @throws Horde_Auth_Exception
      * @throws InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!Horde_Util::extensionExists('smbauth')) {
             throw new Horde_Auth_Exception(__CLASS__ . ': Required smbauth extension not found.');
         }
 
-        foreach (array('domain', 'hostspec') as $val) {
+        foreach (['domain', 'hostspec'] as $val) {
             if (empty($params[$val])) {
                 throw new InvalidArgumentException('Missing ' . $val . ' parameter.');
             }
         }
 
-        $params = array_merge(array(
-            'group' => null
-        ), $params);
+        $params = array_merge([
+            'group' => null,
+        ], $params);
 
         parent::__construct($params);
     }
@@ -83,11 +84,13 @@ class Horde_Auth_Smb extends Horde_Auth_Base
         }
 
         /* Authenticate. */
-        $rval = validate($this->_params['hostspec'],
-                         $this->_params['domain'],
-                         empty($this->_params['group']) ? '' : $this->_params['group'],
-                         $userId,
-                         $credentials['password']);
+        $rval = validate(
+            $this->_params['hostspec'],
+            $this->_params['domain'],
+            empty($this->_params['group']) ? '' : $this->_params['group'],
+            $userId,
+            $credentials['password']
+        );
 
         if ($rval === 1) {
             throw new Horde_Auth_Exception('Failed to connect to SMB server.');

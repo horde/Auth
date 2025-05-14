@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002 Ronnie Garcia <ronnie@mk2.net>
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
@@ -35,14 +36,14 @@ class Horde_Auth_Customsql extends Horde_Auth_Sql
      *
      * @var array
      */
-    protected $_capabilities = array(
+    protected $_capabilities = [
         'add' => true,
         'list' => true,
         'remove' => true,
         'resetpassword' => true,
         'update' => true,
         'authenticate' => true,
-    );
+    ];
 
     /**
      * Constructor.
@@ -67,31 +68,31 @@ class Horde_Auth_Customsql extends Horde_Auth_Sql
      *   - query_list:          (string) List user.
      *   - query_exists:        (string) Check for existance of user. ('\L')
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
-        foreach (array('query_auth', 'query_add',
-                       'query_update', 'query_resetpassword', 'query_remove',
-                       'query_list') as $val) {
+        foreach (['query_auth', 'query_add',
+            'query_update', 'query_resetpassword', 'query_remove',
+            'query_list'] as $val) {
             if (empty($params[$val])) {
-                switch($val) {
-                case 'query_auth':
-                   $this->_capabilities['authenticate'] = false;
-                   break;
-                case 'query_add':
-                   $this->_capabilities['add'] = false;
-                   break;
-                case 'query_update':
-                   $this->_capabilities['update'] = false;
-                   break;
-                case 'query_resetpassword':
-                   $this->_capabilities['resetpassword'] = false;
-                   break;
-                case 'query_remove':
-                   $this->_capabilities['remove'] = false;
-                   break;
-                case 'query_list':
-                   $this->_capabilities['list'] = false;
-                   break;
+                switch ($val) {
+                    case 'query_auth':
+                        $this->_capabilities['authenticate'] = false;
+                        break;
+                    case 'query_add':
+                        $this->_capabilities['add'] = false;
+                        break;
+                    case 'query_update':
+                        $this->_capabilities['update'] = false;
+                        break;
+                    case 'query_resetpassword':
+                        $this->_capabilities['resetpassword'] = false;
+                        break;
+                    case 'query_remove':
+                        $this->_capabilities['remove'] = false;
+                        break;
+                    case 'query_list':
+                        $this->_capabilities['list'] = false;
+                        break;
                 }
             }
         }
@@ -111,11 +112,11 @@ class Horde_Auth_Customsql extends Horde_Auth_Sql
     {
         /* Build a custom query, based on the config file. */
         $query = str_replace(
-            array('\L', '\P'),
-            array(
+            ['\L', '\P'],
+            [
                 $this->_db->quote($userId),
-                $this->_db->quote(Horde_Auth::getCryptedPassword($credentials['password'], $this->_getPassword($userId), $this->_params['encryption'], $this->_params['show_encryption']))
-            ),
+                $this->_db->quote(Horde_Auth::getCryptedPassword($credentials['password'], $this->_getPassword($userId), $this->_params['encryption'], $this->_params['show_encryption'])),
+            ],
             $this->_params['query_auth']
         );
 
@@ -141,11 +142,11 @@ class Horde_Auth_Customsql extends Horde_Auth_Sql
     {
         /* Build a custom query, based on the config file. */
         $query = str_replace(
-            array('\L', '\P'),
-            array(
+            ['\L', '\P'],
+            [
                 $this->_db->quote($userId),
-                $this->_db->quote(Horde_Auth::getCryptedPassword($credentials['password'], '', $this->_params['encryption'], $this->_params['show_encryption']))
-            ),
+                $this->_db->quote(Horde_Auth::getCryptedPassword($credentials['password'], '', $this->_params['encryption'], $this->_params['show_encryption'])),
+            ],
             $this->_params['query_add']
         );
 
@@ -169,12 +170,12 @@ class Horde_Auth_Customsql extends Horde_Auth_Sql
     {
         /* Build a custom query, based on the config file. */
         $query = str_replace(
-            array('\O', '\L', '\P'),
-            array(
+            ['\O', '\L', '\P'],
+            [
                 $this->_db->quote($oldId),
                 $this->_db->quote($newId),
-                $this->_db->quote(Horde_Auth::getCryptedPassword($credentials['password'], $this->_getPassword($oldId), $this->_params['encryption'], $this->_params['show_encryption']))
-            ),
+                $this->_db->quote(Horde_Auth::getCryptedPassword($credentials['password'], $this->_getPassword($oldId), $this->_params['encryption'], $this->_params['show_encryption'])),
+            ],
             $this->_params['query_update']
         );
 
@@ -201,11 +202,11 @@ class Horde_Auth_Customsql extends Horde_Auth_Sql
 
         /* Build the SQL query. */
         $query = str_replace(
-            array('\L', '\P'),
-            array(
+            ['\L', '\P'],
+            [
                 $this->_db->quote($userId),
-                $this->_db->quote(Horde_Auth::getCryptedPassword($password, '', $this->_params['encryption'], $this->_params['show_encryption']))
-            ),
+                $this->_db->quote(Horde_Auth::getCryptedPassword($password, '', $this->_params['encryption'], $this->_params['show_encryption'])),
+            ],
             $this->_params['query_resetpassword']
         );
 
@@ -288,7 +289,7 @@ class Horde_Auth_Customsql extends Horde_Auth_Sql
         );
 
         try {
-            return (bool)$this->_db->selectValue($query);
+            return (bool) $this->_db->selectValue($query);
         } catch (Horde_Db_Exception $e) {
             return false;
         }

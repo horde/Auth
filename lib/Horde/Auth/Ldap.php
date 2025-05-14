@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -32,14 +33,14 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
      *
      * @var array
      */
-    protected $_capabilities = array(
+    protected $_capabilities = [
         'add' => true,
         'update' => true,
         'resetpassword' => true,
         'remove' => true,
         'list' => true,
         'authenticate' => true,
-    );
+    ];
 
     /**
      * LDAP object
@@ -65,9 +66,9 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
      * @throws Horde_Auth_Exception
      * @throws InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
-        foreach (array('basedn', 'ldap', 'uid') as $val) {
+        foreach (['basedn', 'ldap', 'uid'] as $val) {
             if (!isset($params[$val])) {
                 throw new InvalidArgumentException(__CLASS__ . ': Missing ' . $val . ' parameter.');
             }
@@ -98,12 +99,12 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
     protected function _lookupShadow($dn)
     {
         /* Init the return array. */
-        $lookupshadow = array(
+        $lookupshadow = [
             'shadowlastchange' => false,
             'shadowmin' => false,
             'shadowmax' => false,
-            'shadowwarning' => false
-        );
+            'shadowwarning' => false,
+        ];
 
         /* According to LDAP standard, to read operational attributes, you
          * must request them explicitly. Attributes involved in password
@@ -112,17 +113,17 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
          *    shadow*: shadowUser schema
          *    passwordexpirationtime: Sun and Fedora Directory Server */
         try {
-            $result = $this->_ldap->search(null, '(objectClass=*)', array(
-                'attributes' => array(
+            $result = $this->_ldap->search(null, '(objectClass=*)', [
+                'attributes' => [
                     'pwdlastset',
                     'shadowmax',
                     'shadowmin',
                     'shadowlastchange',
                     'shadowwarning',
-                    'passwordexpirationtime'
-                ),
-                'scope' => 'base'
-            ));
+                    'passwordexpirationtime',
+                ],
+                'scope' => 'base',
+            ]);
         } catch (Horde_Ldap_Exception $e) {
             return $lookupshadow;
         }
@@ -274,12 +275,15 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
             $entry['sn'] = $userId;
             $entry[$this->_params['uid']] = $userId;
             $entry['objectclass'] = array_merge(
-                array('top'),
-                $this->_params['newuser_objectclass']);
+                ['top'],
+                $this->_params['newuser_objectclass']
+            );
             $entry['userPassword'] = Horde_Auth::getCryptedPassword(
-                $credentials['password'], '',
+                $credentials['password'],
+                '',
                 $this->_params['encryption'],
-                'true');
+                'true'
+            );
 
             if ($this->_params['password_expiration'] == 'yes') {
                 $entry['shadowMin'] = $this->_params['minage'];
@@ -339,9 +343,13 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
      *
      * @throws Horde_Auth_Exception
      */
-    public function updateUser($oldID, $newID, $credentials, $olddn = null,
-                               $newdn = null)
-    {
+    public function updateUser(
+        $oldID,
+        $newID,
+        $credentials,
+        $olddn = null,
+        $newdn = null
+    ) {
         if (!empty($this->_params['ad'])) {
             throw new Horde_Auth_Exception(__CLASS__ . ': Updating users is not supported for Active Directory.');
         }
@@ -373,9 +381,11 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
 
             /* Encrypt the new password */
             $entry['userpassword'] = Horde_Auth::getCryptedPassword(
-                $credentials['password'], '',
+                $credentials['password'],
+                '',
                 $this->_params['encryption'],
-                'true');
+                'true'
+            );
         } else {
             $entry = $credentials;
             unset($entry['dn']);
@@ -384,9 +394,9 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
         try {
             if ($oldID != $newID) {
                 $this->_ldap->move($olddn, $newdn);
-                $this->_ldap->modify($newdn, array('replace' => $entry));
+                $this->_ldap->modify($newdn, ['replace' => $entry]);
             } else {
-                $this->_ldap->modify($olddn, array('replace' => $entry));
+                $this->_ldap->modify($olddn, ['replace' => $entry]);
             }
         } catch (Horde_Ldap_Exception $e) {
             throw new Horde_Auth_Exception(sprintf(__CLASS__ . ': Unable to update user "%s"', $newID));
@@ -419,11 +429,13 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
         $password = Horde_Auth::genRandomPassword();
 
         /* Encrypt the new password */
-        $entry = array(
-            'userpassword' => Horde_Auth::getCryptedPassword($password,
-                                                             '',
-                                                             $this->_params['encryption'],
-                                                             'true'));
+        $entry = [
+            'userpassword' => Horde_Auth::getCryptedPassword(
+                $password,
+                '',
+                $this->_params['encryption'],
+                'true'
+            )];
 
         /* Set the lastchange field */
         $shadow = $this->_lookupShadow($dn);
@@ -433,7 +445,7 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
 
         /* Update user entry. */
         try {
-            $this->_ldap->modify($dn, array('replace' => $entry));
+            $this->_ldap->modify($dn, ['replace' => $entry]);
         } catch (Horde_Ldap_Exception $e) {
             throw new Horde_Auth_Exception($e);
         }
@@ -451,20 +463,21 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
      */
     public function listUsers($sort = false)
     {
-        $params = array(
-            'attributes' => array($this->_params['uid']),
+        $params = [
+            'attributes' => [$this->_params['uid']],
             'scope' => $this->_params['scope'],
-            'sizelimit' => isset($this->_params['sizelimit']) ? $this->_params['sizelimit'] : 0
-        );
+            'sizelimit' => $this->_params['sizelimit'] ?? 0,
+        ];
 
         /* Add a sizelimit, if specified. Default is 0, which means no limit.
          * Note: You cannot override a server-side limit with this. */
-        $userlist = array();
+        $userlist = [];
         try {
             $search = $this->_ldap->search(
                 $this->_params['basedn'],
-                Horde_Ldap_Filter::build(array('filter' => $this->_params['filter'])),
-                $params);
+                Horde_Ldap_Filter::build(['filter' => $this->_params['filter']]),
+                $params
+            );
             $uid = Horde_String::lower($this->_params['uid']);
             foreach ($search as $val) {
                 if (!$val->exists($uid)) {
@@ -473,7 +486,7 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
                 $userlist[] = $val->getValue($uid, 'single');
             }
         } catch (Horde_Ldap_Exception $e) {
-            $this->_logger->log('LDAP Search failed during listUsers action', 'ERROR');            
+            $this->_logger->log('LDAP Search failed during listUsers action', 'ERROR');
         }
 
         return $this->_sort($userlist, $sort);
@@ -490,18 +503,19 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
      */
     public function exists($userId)
     {
-        $params = array(
-            'scope' => $this->_params['scope']
-        );
+        $params = [
+            'scope' => $this->_params['scope'],
+        ];
 
         try {
             $uidfilter = Horde_Ldap_Filter::create($this->_params['uid'], 'equals', $userId);
-            $classfilter = Horde_Ldap_Filter::build(array('filter' => $this->_params['filter']));
+            $classfilter = Horde_Ldap_Filter::build(['filter' => $this->_params['filter']]);
 
             $search = $this->_ldap->search(
                 $this->_params['basedn'],
-                Horde_Ldap_Filter::combine('and', array($uidfilter, $classfilter)),
-                $params);
+                Horde_Ldap_Filter::combine('and', [$uidfilter, $classfilter]),
+                $params
+            );
             if ($search->count() < 1) {
                 return false;
             }

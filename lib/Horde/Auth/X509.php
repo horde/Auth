@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2013-2017 Horde LLC (http://www.horde.org)
  *
@@ -33,9 +34,9 @@ class Horde_Auth_X509 extends Horde_Auth_Base
      *
      * @var array
      */
-    protected $_capabilities = array(
-        'transparent' => true
-    );
+    protected $_capabilities = [
+        'transparent' => true,
+    ];
 
     /**
      * Constructor.
@@ -59,15 +60,15 @@ class Horde_Auth_X509 extends Horde_Auth_Base
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
-        $params = array_merge(array(
+        $params = array_merge([
             'password' => false,
             'username_field' => 'SSL_CLIENT_S_DN_CN',
             'certificate_field' => 'SSL_CLIENT_CERT',
             'ignore_purpose' => true,
-            'filter' => array()
-        ), $params);
+            'filter' => [],
+        ], $params);
 
         parent::__construct($params);
     }
@@ -132,7 +133,7 @@ class Horde_Auth_X509 extends Horde_Auth_Base
 
         // Set credentials
         $this->setCredential('userId', $_SERVER[$this->_params['username_field']]);
-        $cred = array('certificate_id' => $c_parsed['hash']);
+        $cred = ['certificate_id' => $c_parsed['hash']];
         if (!empty($this->_params['password'])) {
             $cred['password'] = $this->_params['password'];
         }

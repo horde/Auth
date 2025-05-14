@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2006 9Star Research, Inc. http://www.protectnetwork.org/
  *
@@ -33,9 +34,9 @@ class Horde_Auth_Shibboleth extends Horde_Auth_Base
      *
      * @var array
      */
-    protected $_capabilities = array(
-        'transparent' => true
-    );
+    protected $_capabilities = [
+        'transparent' => true,
+    ];
 
     /**
      * Constructor.
@@ -53,17 +54,17 @@ class Horde_Auth_Shibboleth extends Horde_Auth_Base
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!isset($params['username_header'])) {
             throw new InvalidArgumentException('Missing username_header parameter.');
         }
 
-        $params = array_merge(array(
+        $params = array_merge([
             'password_header' => '',
             'password_holder' => '',
-            'password_preference' => ''
-        ), $params);
+            'password_preference' => '',
+        ], $params);
 
         parent::__construct($params);
     }
@@ -100,17 +101,17 @@ class Horde_Auth_Shibboleth extends Horde_Auth_Base
 
         // Set password for hordeauth login.
         switch ($this->_params['password_holder']) {
-        case 'header':
-            $this->setCredential('credentials', array(
-                'password' => $_SERVER[$this->_params['password_header']]
-            ));
-            break;
+            case 'header':
+                $this->setCredential('credentials', [
+                    'password' => $_SERVER[$this->_params['password_header']],
+                ]);
+                break;
 
-        case 'preferences':
-            $this->setCredential('credentials', array(
-                'password' => $_SERVER[$this->_params['password_preference']]
-            ));
-            break;
+            case 'preferences':
+                $this->setCredential('credentials', [
+                    'password' => $_SERVER[$this->_params['password_preference']],
+                ]);
+                break;
         }
 
         return true;

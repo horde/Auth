@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -28,57 +29,57 @@ class Horde_Auth
     /**
      * Authentication failure reason: Bad username and/or password
      */
-    const REASON_BADLOGIN = 1;
+    public const REASON_BADLOGIN = 1;
 
     /**
      * Authentication failure reason: Login failed
      */
-    const REASON_FAILED = 2;
+    public const REASON_FAILED = 2;
 
     /**
      * Authentication failure reason: Password has expired
      */
-    const REASON_EXPIRED = 3;
+    public const REASON_EXPIRED = 3;
 
     /**
      * Authentication failure reason: Logout due to user request
      */
-    const REASON_LOGOUT = 4;
+    public const REASON_LOGOUT = 4;
 
     /**
      * Authentication failure reason: Logout with custom message
      */
-    const REASON_MESSAGE = 5;
+    public const REASON_MESSAGE = 5;
 
     /**
      * Authentication failure reason: Logout due to session expiration
      */
-    const REASON_SESSION = 6;
+    public const REASON_SESSION = 6;
 
     /**
      * Authentication failure reason: User is locked
      */
-    const REASON_LOCKED = 7;
+    public const REASON_LOCKED = 7;
 
     /**
      * 64 characters that are valid for APRMD5 passwords.
      */
-    const APRMD5_VALID = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+    public const APRMD5_VALID = './0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
 
     /**
      * Characters used when generating a password: vowels
      */
-    const VOWELS = 'aeiouy';
+    public const VOWELS = 'aeiouy';
 
     /**
      * Characters used when generating a password: consonants
      */
-    const CONSONANTS = 'bcdfghjklmnpqrstvwxz';
+    public const CONSONANTS = 'bcdfghjklmnpqrstvwxz';
 
     /**
      * Characters used when generating a password: numbers
      */
-    const NUMBERS = '0123456789';
+    public const NUMBERS = '0123456789';
 
     /**
      * Attempts to return a concrete Horde_Auth_Base instance based on
@@ -127,9 +128,11 @@ class Horde_Auth
      * @return string  The encrypted password.
      */
     public static function getCryptedPassword(
-        $plaintext, $salt = '', $encryption = 'md5-hex', $show_encrypt = false
-    )
-    {
+        $plaintext,
+        $salt = '',
+        $encryption = 'md5-hex',
+        $show_encrypt = false
+    ) {
         if ($encryption === 'crypt-blowfish' && $salt === '') {
             return ($show_encrypt ? '{crypt}' : '') . password_hash($plaintext, PASSWORD_BCRYPT);
         }
@@ -139,93 +142,95 @@ class Horde_Auth
 
         /* Encrypt the password. */
         switch ($encryption) {
-        case 'aprmd5':
-            $length = strlen($plaintext);
-            $context = $plaintext . '$apr1$' . $salt;
-            $binary = pack('H*', hash('md5', $plaintext . $salt . $plaintext));
+            case 'aprmd5':
+                $length = strlen($plaintext);
+                $context = $plaintext . '$apr1$' . $salt;
+                $binary = pack('H*', hash('md5', $plaintext . $salt . $plaintext));
 
-            for ($i = $length; $i > 0; $i -= 16) {
-                $context .= substr($binary, 0, ($i > 16 ? 16 : $i));
-            }
-            for ($i = $length; $i > 0; $i >>= 1) {
-                $context .= ($i & 1) ? chr(0) : $plaintext[0];
-            }
-
-            $binary = pack('H*', hash('md5', $context));
-
-            for ($i = 0; $i < 1000; ++$i) {
-                $new = ($i & 1) ? $plaintext : substr($binary, 0, 16);
-                if ($i % 3) {
-                    $new .= $salt;
+                for ($i = $length; $i > 0; $i -= 16) {
+                    $context .= substr($binary, 0, ($i > 16 ? 16 : $i));
                 }
-                if ($i % 7) {
-                    $new .= $plaintext;
+                for ($i = $length; $i > 0; $i >>= 1) {
+                    $context .= ($i & 1) ? chr(0) : $plaintext[0];
                 }
-                $new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
-                $binary = pack('H*', hash('md5', $new));
-            }
 
-            $p = array();
-            for ($i = 0; $i < 5; $i++) {
-                $k = $i + 6;
-                $j = $i + 12;
-                if ($j == 16) {
-                    $j = 5;
+                $binary = pack('H*', hash('md5', $context));
+
+                for ($i = 0; $i < 1000; ++$i) {
+                    $new = ($i & 1) ? $plaintext : substr($binary, 0, 16);
+                    if ($i % 3) {
+                        $new .= $salt;
+                    }
+                    if ($i % 7) {
+                        $new .= $plaintext;
+                    }
+                    $new .= ($i & 1) ? substr($binary, 0, 16) : $plaintext;
+                    $binary = pack('H*', hash('md5', $new));
                 }
-                $p[] = self::_toAPRMD5((ord($binary[$i]) << 16) |
-                                       (ord($binary[$k]) << 8) |
-                                       (ord($binary[$j])),
-                                       5);
-            }
 
-            return '$apr1$' . $salt . '$' . implode('', $p) . self::_toAPRMD5(ord($binary[11]), 3);
+                $p = [];
+                for ($i = 0; $i < 5; $i++) {
+                    $k = $i + 6;
+                    $j = $i + 12;
+                    if ($j == 16) {
+                        $j = 5;
+                    }
+                    $p[] = self::_toAPRMD5(
+                        (ord($binary[$i]) << 16) |
+                                           (ord($binary[$k]) << 8) |
+                                           (ord($binary[$j])),
+                        5
+                    );
+                }
 
-        case 'crypt':
-        case 'crypt-des':
-        case 'crypt-md5':
-        case 'crypt-sha256':
-        case 'crypt-sha512':
-        case 'crypt-blowfish':
-            return ($show_encrypt ? '{crypt}' : '') . crypt($plaintext, $salt);
+                return '$apr1$' . $salt . '$' . implode('', $p) . self::_toAPRMD5(ord($binary[11]), 3);
 
-        case 'joomla-md5':
-            return md5($plaintext . $salt) . ':' . $salt;
+            case 'crypt':
+            case 'crypt-des':
+            case 'crypt-md5':
+            case 'crypt-sha256':
+            case 'crypt-sha512':
+            case 'crypt-blowfish':
+                return ($show_encrypt ? '{crypt}' : '') . crypt($plaintext, $salt);
 
-        case 'md5-base64':
-            $encrypted = base64_encode(pack('H*', hash('md5', $plaintext)));
-            return $show_encrypt ? '{MD5}' . $encrypted : $encrypted;
+            case 'joomla-md5':
+                return md5($plaintext . $salt) . ':' . $salt;
 
-        case 'msad':
-            return Horde_String::convertCharset('"' . $plaintext . '"', 'ISO-8859-1', 'UTF-16LE');
+            case 'md5-base64':
+                $encrypted = base64_encode(pack('H*', hash('md5', $plaintext)));
+                return $show_encrypt ? '{MD5}' . $encrypted : $encrypted;
 
-        case 'mysql':
-            $encrypted = '*' . Horde_String::upper(sha1(sha1($plaintext, true), false));
-            return $show_encrypt ? '{MYSQL}' . $encrypted : $encrypted;
+            case 'msad':
+                return Horde_String::convertCharset('"' . $plaintext . '"', 'ISO-8859-1', 'UTF-16LE');
 
-        case 'plain':
-            return $plaintext;
+            case 'mysql':
+                $encrypted = '*' . Horde_String::upper(sha1(sha1($plaintext, true), false));
+                return $show_encrypt ? '{MYSQL}' . $encrypted : $encrypted;
 
-        case 'sha':
-        case 'sha1':
-            $encrypted = base64_encode(pack('H*', hash('sha1', $plaintext)));
-            return $show_encrypt ? '{SHA}' . $encrypted : $encrypted;
+            case 'plain':
+                return $plaintext;
 
-        case 'sha256':
-        case 'ssha256':
-            $encrypted = base64_encode(pack('H*', hash('sha256', $plaintext . $salt)) . $salt);
-            return $show_encrypt ? '{SSHA256}' . $encrypted : $encrypted;
+            case 'sha':
+            case 'sha1':
+                $encrypted = base64_encode(pack('H*', hash('sha1', $plaintext)));
+                return $show_encrypt ? '{SHA}' . $encrypted : $encrypted;
 
-        case 'smd5':
-            $encrypted = base64_encode(pack('H*', hash('md5', $plaintext . $salt)) . $salt);
-            return $show_encrypt ? '{SMD5}' . $encrypted : $encrypted;
+            case 'sha256':
+            case 'ssha256':
+                $encrypted = base64_encode(pack('H*', hash('sha256', $plaintext . $salt)) . $salt);
+                return $show_encrypt ? '{SSHA256}' . $encrypted : $encrypted;
 
-        case 'ssha':
-            $encrypted = base64_encode(pack('H*', hash('sha1', $plaintext . $salt)) . $salt);
-            return $show_encrypt ? '{SSHA}' . $encrypted : $encrypted;
+            case 'smd5':
+                $encrypted = base64_encode(pack('H*', hash('md5', $plaintext . $salt)) . $salt);
+                return $show_encrypt ? '{SMD5}' . $encrypted : $encrypted;
 
-        case 'md5-hex':
-        default:
-            return ($show_encrypt) ? '{MD5}' . hash('md5', $plaintext) : hash('md5', $plaintext);
+            case 'ssha':
+                $encrypted = base64_encode(pack('H*', hash('sha1', $plaintext . $salt)) . $salt);
+                return $show_encrypt ? '{SSHA}' . $encrypted : $encrypted;
+
+            case 'md5-hex':
+            default:
+                return ($show_encrypt) ? '{MD5}' . hash('md5', $plaintext) : hash('md5', $plaintext);
         }
     }
 
@@ -247,70 +252,72 @@ class Horde_Auth
      * @return string  The generated or extracted salt.
      */
     public static function getSalt(
-        $encryption = 'md5-hex', $seed = '', $plaintext = ''
-    )
-    {
+        $encryption = 'md5-hex',
+        $seed = '',
+        $plaintext = ''
+    ) {
         switch ($encryption) {
-        case 'aprmd5':
-            if ($seed) {
-                return substr(preg_replace('/^\$apr1\$(.{8}).*/', '\\1', $seed), 0, 8);
-            } else {
-                $salt = '';
-                $valid = self::APRMD5_VALID;
-                for ($i = 0; $i < 8; ++$i) {
-                    $salt .= $valid[mt_rand(0, 63)];
+            case 'aprmd5':
+                if ($seed) {
+                    return substr(preg_replace('/^\$apr1\$(.{8}).*/', '\\1', $seed), 0, 8);
+                } else {
+                    $salt = '';
+                    $valid = self::APRMD5_VALID;
+                    for ($i = 0; $i < 8; ++$i) {
+                        $salt .= $valid[mt_rand(0, 63)];
+                    }
+                    return $salt;
                 }
-                return $salt;
-            }
 
-        case 'crypt':
-        case 'crypt-des':
-            return $seed
-                ? substr(preg_replace('|^{crypt}|i', '', $seed), 0, 2)
-                : substr(base64_encode(hash('md5', mt_rand(), true)), 0, 2);
+                // no break
+            case 'crypt':
+            case 'crypt-des':
+                return $seed
+                    ? substr(preg_replace('|^{crypt}|i', '', $seed), 0, 2)
+                    : substr(base64_encode(hash('md5', mt_rand(), true)), 0, 2);
 
-        case 'crypt-blowfish':
-            return $seed
-                ? preg_replace('#^(?:{crypt})?(\$2[axy]\$(?:(0[4-9]|[1-2][0-9]|3[01])\$)[0-9A-Za-z./]{22}).*#i', '$1\$', $seed)
-                : '$2y$10$' . str_replace("+", ".", base64_encode(hash('md5', sprintf('%08X%08X%08X', mt_rand(), mt_rand(), mt_rand()), true))) . '$';
+            case 'crypt-blowfish':
+                return $seed
+                    ? preg_replace('#^(?:{crypt})?(\$2[axy]\$(?:(0[4-9]|[1-2][0-9]|3[01])\$)[0-9A-Za-z./]{22}).*#i', '$1\$', $seed)
+                    : '$2y$10$' . str_replace("+", ".", base64_encode(hash('md5', sprintf('%08X%08X%08X', mt_rand(), mt_rand(), mt_rand()), true))) . '$';
 
-        case 'crypt-md5':
-            return $seed
-                ? substr(preg_replace('|^{crypt}|i', '', $seed), 0, 12)
-                : '$1$' . base64_encode(hash('md5', sprintf('%08X%08X', mt_rand(), mt_rand()), true)) . '$';
+            case 'crypt-md5':
+                return $seed
+                    ? substr(preg_replace('|^{crypt}|i', '', $seed), 0, 12)
+                    : '$1$' . base64_encode(hash('md5', sprintf('%08X%08X', mt_rand(), mt_rand()), true)) . '$';
 
-        case 'crypt-sha256':
-            return $seed
-                ? substr(preg_replace('|^{crypt}|i', '', $seed), 0, strrpos($seed, '$'))
-                : '$5$' . base64_encode(hash('md5', sprintf('%08X%08X%08X', mt_rand(), mt_rand(), mt_rand()), true)) . '$';
+            case 'crypt-sha256':
+                return $seed
+                    ? substr(preg_replace('|^{crypt}|i', '', $seed), 0, strrpos($seed, '$'))
+                    : '$5$' . base64_encode(hash('md5', sprintf('%08X%08X%08X', mt_rand(), mt_rand(), mt_rand()), true)) . '$';
 
-        case 'crypt-sha512':
-            return $seed
-                ? substr(preg_replace('|^{crypt}|i', '', $seed), 0, strrpos($seed, '$'))
-                : '$6$' . base64_encode(hash('md5', sprintf('%08X%08X%08X', mt_rand(), mt_rand(), mt_rand()), true)) . '$';
+            case 'crypt-sha512':
+                return $seed
+                    ? substr(preg_replace('|^{crypt}|i', '', $seed), 0, strrpos($seed, '$'))
+                    : '$6$' . base64_encode(hash('md5', sprintf('%08X%08X%08X', mt_rand(), mt_rand(), mt_rand()), true)) . '$';
 
-        case 'joomla-md5':
-             $split = preg_split('/:/', $seed );
-             return $split ? $split[1] : '';
+            case 'joomla-md5':
+                $split = preg_split('/:/', $seed);
+                return $split ? $split[1] : '';
 
-        case 'sha256':
-        case 'ssha256':
-            return $seed
-                ? substr(base64_decode(preg_replace('|^{SSHA256}|i', '', $seed)), 32)
-                : substr(pack('H*', hash('sha256', substr(pack('h*', hash('md5', mt_rand())), 0, 8) . $plaintext)), 0, 4);
+            case 'sha256':
+            case 'ssha256':
+                return $seed
+                    ? substr(base64_decode(preg_replace('|^{SSHA256}|i', '', $seed)), 32)
+                    : substr(pack('H*', hash('sha256', substr(pack('h*', hash('md5', mt_rand())), 0, 8) . $plaintext)), 0, 4);
 
-        case 'smd5':
-            return $seed
-                ? substr(base64_decode(preg_replace('|^{SMD5}|i', '', $seed)), 16)
-                : substr(pack('H*', hash('md5', substr(pack('h*', hash('md5', mt_rand())), 0, 8) . $plaintext)), 0, 4);
+            case 'smd5':
+                return $seed
+                    ? substr(base64_decode(preg_replace('|^{SMD5}|i', '', $seed)), 16)
+                    : substr(pack('H*', hash('md5', substr(pack('h*', hash('md5', mt_rand())), 0, 8) . $plaintext)), 0, 4);
 
-        case 'ssha':
-            return $seed
-                ? substr(base64_decode(preg_replace('|^{SSHA}|i', '', $seed)), 20)
-                : substr(pack('H*', hash('sha1', substr(pack('h*', hash('md5', mt_rand())), 0, 8) . $plaintext)), 0, 4);
+            case 'ssha':
+                return $seed
+                    ? substr(base64_decode(preg_replace('|^{SSHA}|i', '', $seed)), 20)
+                    : substr(pack('H*', hash('sha1', substr(pack('h*', hash('md5', mt_rand())), 0, 8) . $plaintext)), 0, 4);
 
-        default:
-            return '';
+            default:
+                return '';
         }
     }
 
@@ -405,20 +412,32 @@ class Horde_Auth
         }
 
         // Dissect the password in a localized way.
-        $classes = array();
+        $classes = [];
         $alpha = $nonalpha = $alnum = $num = $upper = $lower = $space = $symbol = 0;
         for ($i = 0; $i < strlen($password); $i++) {
             $char = substr($password, $i, 1);
             if (ctype_lower($char)) {
-                $lower++; $alpha++; $alnum++; $classes['lower'] = 1;
+                $lower++;
+                $alpha++;
+                $alnum++;
+                $classes['lower'] = 1;
             } elseif (ctype_upper($char)) {
-                $upper++; $alpha++; $alnum++; $classes['upper'] = 1;
+                $upper++;
+                $alpha++;
+                $alnum++;
+                $classes['upper'] = 1;
             } elseif (ctype_digit($char)) {
-                $num++; $nonalpha++; $alnum++; $classes['number'] = 1;
+                $num++;
+                $nonalpha++;
+                $alnum++;
+                $classes['number'] = 1;
             } elseif (ctype_punct($char)) {
-                $symbol++; $nonalpha++; $classes['symbol'] = 1;
+                $symbol++;
+                $nonalpha++;
+                $classes['symbol'] = 1;
             } elseif (ctype_space($char)) {
-                $space++; $classes['symbol'] = 1;
+                $space++;
+                $classes['symbol'] = 1;
             }
         }
 
@@ -466,9 +485,10 @@ class Horde_Auth
      * @throws Horde_Auth_Exception if the password is too similar.
      */
     public static function checkPasswordSimilarity(
-        $password, array $dict, $max = 80
-    )
-    {
+        $password,
+        array $dict,
+        $max = 80
+    ) {
         // Check for pass == dict, simple reverse strings, etc.
         foreach ($dict as $test) {
             if ((strcasecmp($password, $test) == 0) ||

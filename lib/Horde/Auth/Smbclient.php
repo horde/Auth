@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -42,9 +43,9 @@ class Horde_Auth_Smbclient extends Horde_Auth_Base
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
-        foreach (array('hostspec', 'domain', 'smbclient_path') as $val) {
+        foreach (['hostspec', 'domain', 'smbclient_path'] as $val) {
             if (empty($params[$val])) {
                 throw new InvalidArgumentException('Missing ' . $val . ' parameter.');
             }
@@ -68,15 +69,15 @@ class Horde_Auth_Smbclient extends Horde_Auth_Base
         }
 
         /* Authenticate. */
-        $cmdline = implode(' ', array(
+        $cmdline = implode(' ', [
             $this->_params['smbclient_path'],
             '-L',
             $this->_params['hostspec'],
             '-W',
             $this->_params['domain'],
             '-U',
-            $userId
-        ));
+            $userId,
+        ]);
 
         $sc = popen($cmdline, 'w');
         if ($sc === false) {

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -34,9 +35,9 @@ class Horde_Auth_Composite extends Horde_Auth_Base
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
-        foreach (array('admin_driver', 'auth_driver') as $val) {
+        foreach (['admin_driver', 'auth_driver'] as $val) {
             if (!isset($params[$val])) {
                 throw new InvalidArgumentException('Missing ' . $val . ' parameter.');
             }

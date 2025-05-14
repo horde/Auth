@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1997-2007 Rasmus Lerdorf <rasmus@php.net>
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
@@ -33,10 +34,10 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
      *
      * @var array
      */
-    protected $_capabilities = array(
+    protected $_capabilities = [
         'list' => true,
         'authenticate' => true,
-    );
+    ];
 
     /**
      * Hash list of users.
@@ -50,7 +51,7 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
      *
      * @var array
      */
-    protected $_groups = array();
+    protected $_groups = [];
 
     /**
      * Filehandle for lockfile.
@@ -72,12 +73,12 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
      *
      * @var array
      */
-    protected $_exclude = array(
+    protected $_exclude = [
         'root', 'daemon', 'bin', 'sys', 'sync', 'games', 'man', 'lp', 'mail',
         'news', 'uucp', 'proxy', 'postgres', 'www-data', 'backup', 'operator',
         'list', 'irc', 'gnats', 'nobody', 'identd', 'sshd', 'gdm', 'postfix',
         'mysql', 'cyrus', 'ftp',
-    );
+    ];
 
     /**
      * Constructor.
@@ -100,17 +101,17 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!isset($params['filename'])) {
             throw new InvalidArgumentException('Missing filename parameter.');
         }
 
-        $params = array_merge(array(
+        $params = array_merge([
             'encryption' => 'crypt-des',
             'lock' => false,
-            'show_encryption' => false
-        ), $params);
+            'show_encryption' => false,
+        ], $params);
 
         parent::__construct($params);
     }
@@ -148,11 +149,11 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
     {
         if ($this->_params['lock']) {
             switch ($capability) {
-            case 'add':
-            case 'update':
-            case 'resetpassword':
-            case 'remove':
-                return true;
+                case 'add':
+                case 'update':
+                case 'resetpassword':
+                case 'remove':
+                    return true;
             }
         }
 
@@ -185,7 +186,7 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
             throw new Horde_Auth_Exception("Couldn't open '" . $this->_params['filename'] . "'.");
         }
 
-        $this->_users = array();
+        $this->_users = [];
         while (!feof($fp)) {
             $line = trim(fgets($fp, 256));
             if (empty($line)) {
@@ -198,7 +199,7 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
             }
 
             $user = $parts[0];
-            $userinfo = array();
+            $userinfo = [];
             if (strlen($user) && !in_array($user, $this->_exclude)) {
                 if (isset($parts[1])) {
                     $userinfo['password'] = $parts[1];
@@ -231,7 +232,7 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
                 throw new Horde_Auth_Exception("Couldn't open '" . $this->_params['group_filename'] . "'.");
             }
 
-            $this->_groups = array();
+            $this->_groups = [];
             while (!feof($fp)) {
                 $line = trim(fgets($fp));
                 if (empty($line)) {
@@ -308,7 +309,7 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
             return $this->_sort($users, $sort);
         }
 
-        $groupUsers = array();
+        $groupUsers = [];
         foreach ($this->_params['required_groups'] as $group) {
             $groupUsers = array_merge($groupUsers, array_intersect($users, array_keys($this->_groups[$group])));
         }
@@ -335,13 +336,15 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
             throw new Horde_Auth_Exception("Couldn't add user '$userId', because the user already exists.");
         }
 
-        $this->_users[$userId] = array(
-            'password' => Horde_Auth::getCryptedPassword($credentials['password'],
-                                                    '',
-                                                    $this->_params['encryption'],
-                                                    $this->_params['show_encryption']),
+        $this->_users[$userId] = [
+            'password' => Horde_Auth::getCryptedPassword(
+                $credentials['password'],
+                '',
+                $this->_params['encryption'],
+                $this->_params['show_encryption']
+            ),
 
-        );
+        ];
     }
 
     /**
@@ -365,12 +368,14 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
             throw new Horde_Auth_Exception("Couldn't modify user '$oldID', because the user doesn't exist.");
         }
 
-        $this->_users[$newID] = array(
-            'password' => Horde_Auth::getCryptedPassword($credentials['password'],
-                                                    '',
-                                                    $this->_params['encryption'],
-                                                    $this->_params['show_encryption']),
-        );
+        $this->_users[$newID] = [
+            'password' => Horde_Auth::getCryptedPassword(
+                $credentials['password'],
+                '',
+                $this->_params['encryption'],
+                $this->_params['show_encryption']
+            ),
+        ];
         return true;
     }
 
@@ -387,7 +392,7 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
     {
         /* Get a new random password. */
         $password = Horde_Auth::genRandomPassword();
-        $this->updateUser($userId, $userId, array('password' => $password));
+        $this->updateUser($userId, $userId, ['password' => $password]);
 
         return $password;
     }
@@ -426,10 +431,12 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
      */
     protected function _comparePasswords($encrypted, $plaintext)
     {
-        return $encrypted == Horde_Auth::getCryptedPassword($plaintext,
-                                                       $encrypted,
-                                                       $this->_params['encryption'],
-                                                       $this->_params['show_encryption']);
+        return $encrypted == Horde_Auth::getCryptedPassword(
+            $plaintext,
+            $encrypted,
+            $this->_params['encryption'],
+            $this->_params['show_encryption']
+        );
     }
 
 }

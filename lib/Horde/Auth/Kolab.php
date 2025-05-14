@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2004-2007 Stuart Binge <s.binge@codefusion.co.za>
  * Copyright 2008-2017 Horde LLC (http://www.horde.org/)
@@ -35,9 +36,9 @@ class Horde_Auth_Kolab extends Horde_Auth_Base
      *
      * @var array
      */
-    protected $_capabilities = array(
-        'authenticate'  => true
-    );
+    protected $_capabilities = [
+        'authenticate'  => true,
+    ];
 
     /**
      * Constructor.
@@ -49,7 +50,7 @@ class Horde_Auth_Kolab extends Horde_Auth_Base
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!isset($params['kolab'])) {
             throw new InvalidArgumentException('Missing kolab parameter.');

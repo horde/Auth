@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -29,16 +30,16 @@ class Horde_Auth_Http extends Horde_Auth_Base
      *
      * @var array
      */
-    protected $_capabilities = array(
-        'transparent' => true
-    );
+    protected $_capabilities = [
+        'transparent' => true,
+    ];
 
     /**
      * Array of usernames and hashed passwords.
      *
      * @var array
      */
-    protected $_users = array();
+    protected $_users = [];
 
     /**
      * Constructor.
@@ -53,11 +54,11 @@ class Horde_Auth_Http extends Horde_Auth_Base
      * 'htpasswd_file' - (string) TODO
      * </pre>
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
-        $params = array_merge(array(
-            'encryption' => 'crypt-des'
-        ), $params);
+        $params = array_merge([
+            'encryption' => 'crypt-des',
+        ], $params);
 
         parent::__construct($params);
 
@@ -68,7 +69,7 @@ class Horde_Auth_Http extends Horde_Auth_Base
                 $this->_capabilities['list'] = true;
 
                 foreach ($users as $line) {
-                    list($user, $pass) = explode(':', $line, 2);
+                    [$user, $pass] = explode(':', $line, 2);
                     $this->_users[trim($user)] = trim($pass);
                 }
             }
@@ -127,9 +128,9 @@ class Horde_Auth_Http extends Horde_Auth_Base
         }
 
         $this->_credentials['userId'] = $_SERVER['PHP_AUTH_USER'];
-        $this->_credentials['credentials'] = array(
-            'password' => Horde_Util::dispelMagicQuotes($_SERVER['PHP_AUTH_PW'])
-        );
+        $this->_credentials['credentials'] = [
+            'password' => Horde_Util::dispelMagicQuotes($_SERVER['PHP_AUTH_PW']),
+        ];
 
         return true;
     }

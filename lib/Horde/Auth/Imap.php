@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -32,7 +33,7 @@ class Horde_Auth_Imap extends Horde_Auth_Base
      *
      * @var array()
      */
-    protected $_imap = array();
+    protected $_imap = [];
 
     /**
      * Constructor.
@@ -54,25 +55,25 @@ class Horde_Auth_Imap extends Horde_Auth_Base
      *                    stored (UTF-8).
      *                    DEFAULT: 'user.'
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
-        $params = array_merge(array(
+        $params = array_merge([
             'admin_password' => null,
             'admin_user' => null,
             'hostspec' => '',
             'port' => null,
             'secure' => 'none',
-            'userhierarchy' => 'user.'
-        ), $params);
+            'userhierarchy' => 'user.',
+        ], $params);
 
         parent::__construct($params);
 
         if (!empty($this->_params['admin_user'])) {
-            $this->_capabilities = array_merge($this->_capabilities, array(
+            $this->_capabilities = array_merge($this->_capabilities, [
                 'add' => true,
                 'list' => true,
-                'remove' => true
-            ));
+                'remove' => true,
+            ]);
         }
     }
 
@@ -113,9 +114,9 @@ class Horde_Auth_Imap extends Horde_Auth_Base
 
             $name = $this->_params['userhierarchy'] . $userId;
             $ob->createMailbox($name);
-            $ob->setACL($name, $this->_params['admin_user'], array(
-                'rights' => 'lrswipcda'
-            ));
+            $ob->setACL($name, $this->_params['admin_user'], [
+                'rights' => 'lrswipcda',
+            ]);
         } catch (Horde_Imap_Client_Exception $e) {
             throw new Horde_Auth_Exception($e);
         }
@@ -137,9 +138,9 @@ class Horde_Auth_Imap extends Horde_Auth_Base
             $ob = $this->_getOb($this->_params['admin_user'], $this->_params['admin_password']);
 
             $name = $this->_params['userhierarchy'] . $userId;
-            $ob->setACL($name, $this->_params['admin_user'], array(
-                'rights' => 'lrswipcda'
-            ));
+            $ob->setACL($name, $this->_params['admin_user'], [
+                'rights' => 'lrswipcda',
+            ]);
             $ob->deleteMailbox($name);
         } catch (Horde_Imap_Client_Exception $e) {
             throw new Horde_Auth_Exception($e);
@@ -161,13 +162,13 @@ class Horde_Auth_Imap extends Horde_Auth_Base
         }
         try {
             $ob = $this->_getOb($this->_params['admin_user'], $this->_params['admin_password']);
-            $list = $ob->listMailboxes($this->_params['userhierarchy'] . '%', Horde_Imap_Client::MBOX_ALL, array('flat' => true));
+            $list = $ob->listMailboxes($this->_params['userhierarchy'] . '%', Horde_Imap_Client::MBOX_ALL, ['flat' => true]);
         } catch (Horde_Imap_Client_Exception $e) {
             throw new Horde_Auth_Exception($e);
         }
 
         $users = empty($list)
-            ? array()
+            ? []
             : preg_replace('/.*' . preg_quote($this->_params['userhierarchy'], '/') . '(.*)/', '\\1', $list);
         return $this->_sort($users, $sort);
     }
@@ -183,16 +184,16 @@ class Horde_Auth_Imap extends Horde_Auth_Base
      */
     protected function _getOb($user, $pass)
     {
-        $sig = hash('md5', serialize(array($user, $pass)));
+        $sig = hash('md5', serialize([$user, $pass]));
 
         if (!isset($this->_imap[$sig])) {
-            $imap_config = array(
+            $imap_config = [
                 'hostspec' => empty($this->_params['hostspec']) ? null : $this->_params['hostspec'],
                 'password' => $pass,
                 'port' => empty($this->_params['port']) ? null : $this->_params['port'],
                 'secure' => ($this->_params['secure'] == 'none') ? null : $this->_params['secure'],
-                'username' => $user
-            );
+                'username' => $user,
+            ];
 
             try {
                 $this->_imap[$sig] = new Horde_Imap_Client_Socket($imap_config);

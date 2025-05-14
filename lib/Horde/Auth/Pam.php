@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
  *
@@ -43,7 +44,7 @@ class Horde_Auth_Pam extends Horde_Auth_Base
      *
      * @throws Horde_Auth_Exception
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!Horde_Util::extensionExists('pam')) {
             throw new Horde_Auth_Exception('PAM authentication is not available.');

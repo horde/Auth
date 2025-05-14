@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
  *
@@ -22,6 +23,4 @@
  * @license   http://www.horde.org/licenses/lgpl21 LGPL-2.1
  * @package   Auth
  */
-class Horde_Auth_Exception extends Horde_Exception_Wrapped
-{
-}
+class Horde_Auth_Exception extends Horde_Exception_Wrapped {}

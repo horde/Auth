@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -32,9 +33,9 @@ class Horde_Auth_Auto extends Horde_Auth_Base
      *
      * @var array
      */
-    protected $_capabilities = array(
-        'transparent' => true
-    );
+    protected $_capabilities = [
+        'transparent' => true,
+    ];
 
     /**
      * Constructor.
@@ -50,13 +51,13 @@ class Horde_Auth_Auto extends Horde_Auth_Base
      *              DEFAULT: 'horde_user'
      * </pre>
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
-        $params = array_merge(array(
+        $params = array_merge([
             'password' => '',
             'requestuser' => false,
-            'username' => 'horde_user'
-        ), $params);
+            'username' => 'horde_user',
+        ], $params);
 
         parent::__construct($params);
     }
@@ -84,9 +85,9 @@ class Horde_Auth_Auto extends Horde_Auth_Base
         $this->_credentials['userId'] = (!empty($this->_params['requestuser']) && isset($_REQUEST['username']))
             ? $_REQUEST['username']
             : $this->_params['username'];
-        $this->_credentials['credentials'] = array(
-            'password' => isset($this->_params['password']) ? $this->_params['password'] : null
-        );
+        $this->_credentials['credentials'] = [
+            'password' => $this->_params['password'] ?? null,
+        ];
 
         return true;
     }

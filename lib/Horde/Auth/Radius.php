@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -58,25 +59,25 @@ class Horde_Auth_Radius extends Horde_Auth_Base
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!Horde_Util::extensionExists('radius')) {
             throw new Horde_Auth_Exception(__CLASS__ . ': requires the radius PECL extension to be loaded.');
         }
 
-        foreach (array('host', 'secret', 'method') as $val) {
+        foreach (['host', 'secret', 'method'] as $val) {
             if (!isset($params[$val])) {
                 throw new InvalidArgumentException('Missing ' . $val . ' parameter.');
             }
         }
 
-        $params = array_merge(array(
-            'nas' => (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost'),
+        $params = array_merge([
+            'nas' => ($_SERVER['HTTP_HOST'] ?? 'localhost'),
             'port' => 0,
             'retries' => 3,
             'suffix' => '',
-            'timeout' => 3
-        ), $params);
+            'timeout' => 3,
+        ], $params);
 
         parent::__construct($params);
     }
@@ -105,7 +106,7 @@ class Horde_Auth_Radius extends Horde_Auth_Base
         radius_put_attr($res, RADIUS_NAS_PORT_TYPE, RADIUS_VIRTUAL);
         radius_put_attr($res, RADIUS_SERVICE_TYPE, RADIUS_FRAMED);
         radius_put_attr($res, RADIUS_FRAMED_PROTOCOL, RADIUS_PPP);
-        radius_put_attr($res, RADIUS_CALLING_STATION_ID, isset($_SERVER['REMOTE_HOST']) ? $_SERVER['REMOTE_HOST'] : '127.0.0.1');
+        radius_put_attr($res, RADIUS_CALLING_STATION_ID, $_SERVER['REMOTE_HOST'] ?? '127.0.0.1');
 
         /* Insert username/password into request. */
         radius_put_attr($res, RADIUS_USER_NAME, $username);
@@ -115,14 +116,14 @@ class Horde_Auth_Radius extends Horde_Auth_Base
         $success = radius_send_request($res);
 
         switch ($success) {
-        case RADIUS_ACCESS_ACCEPT:
-            break;
+            case RADIUS_ACCESS_ACCEPT:
+                break;
 
-        case RADIUS_ACCESS_REJECT:
-            throw new Horde_Auth_Exception('Authentication rejected by RADIUS server.');
+            case RADIUS_ACCESS_REJECT:
+                throw new Horde_Auth_Exception('Authentication rejected by RADIUS server.');
 
-        default:
-            throw new Horde_Auth_Exception(radius_strerror($res));
+            default:
+                throw new Horde_Auth_Exception(radius_strerror($res));
         }
     }
 

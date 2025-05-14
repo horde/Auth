@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
  *
@@ -38,16 +39,16 @@ class Horde_Auth_Ftp extends Horde_Auth_Base
      *
      * @throws Horde_Auth_Exception
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!Horde_Util::extensionExists('ftp')) {
             throw new Horde_Auth_Exception(__CLASS__ . ': Required FTP extension not found. Compile PHP with the --enable-ftp switch.');
         }
 
-        $params = array_merge(array(
+        $params = array_merge([
             'hostspec' => 'localhost',
-            'port' => 21
-        ), $params);
+            'port' => 21,
+        ], $params);
 
         parent::__construct($params);
     }

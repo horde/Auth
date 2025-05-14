@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
  *
@@ -44,16 +45,16 @@ class Horde_Auth_Peclsasl extends Horde_Auth_Base
      *
      * @throws Horde_Auth_Exception
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!Horde_Util::extensionExists('sasl')) {
             throw new Horde_Auth_Exception('Horde_Auth_Peclsasl:: requires the sasl PECL extension to be loaded.');
         }
 
-        $params = array_merge(array(
+        $params = array_merge([
             'app' => 'horde',
-            'service' => 'php'
-        ), $params);
+            'service' => 'php',
+        ], $params);
 
         parent::__construct($params);
 

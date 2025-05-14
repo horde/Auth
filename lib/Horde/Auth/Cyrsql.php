@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
  *
@@ -105,14 +106,14 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
      *
      * @var array
      */
-    protected $_capabilities = array(
+    protected $_capabilities = [
         'add'           => true,
         'list'          => true,
         'remove'        => true,
         'resetpassword' => false,
         'update'        => true,
         'authenticate'  => true,
-    );
+    ];
 
     /**
      * Horde_Imap_Client object.
@@ -141,7 +142,7 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
      *
      * @throws InvalidArgumentException
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (!isset($params['imap']) ||
             !($params['imap'] instanceof Horde_Imap_Client_Base)) {
@@ -150,13 +151,13 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
         $this->_imap = $params['imap'];
         unset($params['imap']);
 
-        $params = array_merge(array(
+        $params = array_merge([
             'domain_field' => 'domain_name',
-            'folders' => array(),
-            'hidden_accounts' => array('cyrus'),
+            'folders' => [],
+            'hidden_accounts' => ['cyrus'],
             'quota' => null,
-            'userhierarchy' => 'user.'
-        ), $params);
+            'userhierarchy' => 'user.',
+        ], $params);
 
         parent::__construct($params);
     }
@@ -174,17 +175,21 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
         if (!empty($this->_params['domain_field']) &&
             ($this->_params['domain_field'] != 'none')) {
             /* Build the SQL query with domain. */
-            $query = sprintf('SELECT * FROM %s WHERE %s = ? AND %s = ?',
-                             $this->_params['table'],
-                             $this->_params['username_field'],
-                             $this->_params['domain_field']);
+            $query = sprintf(
+                'SELECT * FROM %s WHERE %s = ? AND %s = ?',
+                $this->_params['table'],
+                $this->_params['username_field'],
+                $this->_params['domain_field']
+            );
             $values = explode('@', $userId);
         } else {
             /* Build the SQL query without domain. */
-            $query = sprintf('SELECT * FROM %s WHERE %s = ?',
-                             $this->_params['table'],
-                             $this->_params['username_field']);
-            $values = array($userId);
+            $query = sprintf(
+                'SELECT * FROM %s WHERE %s = ?',
+                $this->_params['table'],
+                $this->_params['username_field']
+            );
+            $values = [$userId];
         }
 
         try {
@@ -224,24 +229,28 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
     {
         if (!empty($this->_params['domain_field']) &&
             ($this->_params['domain_field'] != 'none')) {
-            list($name, $domain) = explode('@', $userId);
+            [$name, $domain] = explode('@', $userId);
 
-            $query = sprintf('INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?)',
-                             $this->_params['table'],
-                             $this->_params['username_field'],
-                             $this->_params['domain_field'],
-                             $this->_params['password_field']);
-            $values = array(
+            $query = sprintf(
+                'INSERT INTO %s (%s, %s, %s) VALUES (?, ?, ?)',
+                $this->_params['table'],
+                $this->_params['username_field'],
+                $this->_params['domain_field'],
+                $this->_params['password_field']
+            );
+            $values = [
                 $name,
                 $domain,
-                Horde_Auth::getCryptedPassword($credentials['password'],
-                                               '',
-                                               $this->_params['encryption'],
-                                               $this->_params['show_encryption'])
-            );
+                Horde_Auth::getCryptedPassword(
+                    $credentials['password'],
+                    '',
+                    $this->_params['encryption'],
+                    $this->_params['show_encryption']
+                ),
+            ];
 
             $query2 = 'INSERT INTO virtual (alias, dest, username, status) VALUES (?, ?, ?, 1)';
-            $values2 = array($userId, $userId, $name);
+            $values2 = [$userId, $userId, $name];
 
             try {
                 $this->_db->insert($query, $values);
@@ -257,10 +266,10 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
 
         try {
             $this->_imap->createMailbox($mailbox);
-            $this->_imap->setACL($mailbox, $this->_params['cyradmin'], array('rights' => 'lrswipcda'));
+            $this->_imap->setACL($mailbox, $this->_params['cyradmin'], ['rights' => 'lrswipcda']);
             if (isset($this->_params['quota']) &&
                 ($this->_params['quota'] >= 0)) {
-                $this->_imap->setQuota($mailbox, array('storage' => $this->_params['quota']));
+                $this->_imap->setQuota($mailbox, ['storage' => $this->_params['quota']]);
             }
         } catch (Horde_Imap_Client_Exception $e) {
             throw new Horde_Auth_Exception($e);
@@ -269,8 +278,9 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
         foreach ($this->_params['folders'] as $val) {
             try {
                 $this->_imap->createMailbox($val);
-                $this->_imap->setACL($val, $this->_params['cyradmin'], array('rights' => 'lrswipcda'));
-            } catch (Horde_Imap_Client_Exception $e) {}
+                $this->_imap->setACL($val, $this->_params['cyradmin'], ['rights' => 'lrswipcda']);
+            } catch (Horde_Imap_Client_Exception $e) {
+            }
         }
     }
 
@@ -285,17 +295,19 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
     {
         if (!empty($this->_params['domain_field']) &&
             ($this->_params['domain_field'] != 'none')) {
-            list($name, $domain) = explode('@', $userId);
+            [$name, $domain] = explode('@', $userId);
 
             /* Build the SQL query. */
-            $query = sprintf('DELETE FROM %s WHERE %s = ? and %s = ?',
-                             $this->_params['table'],
-                             $this->_params['username_field'],
-                             $this->_params['domain_field']);
-            $values = array($name, $domain);
+            $query = sprintf(
+                'DELETE FROM %s WHERE %s = ? and %s = ?',
+                $this->_params['table'],
+                $this->_params['username_field'],
+                $this->_params['domain_field']
+            );
+            $values = [$name, $domain];
 
             $query2 = 'DELETE FROM virtual WHERE dest = ?';
-            $values2 = array($userId);
+            $values2 = [$userId];
 
             try {
                 $this->_db->delete($query, $values);
@@ -308,12 +320,12 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
         }
 
         /* Set ACL for mailbox deletion. */
-        list($admin) = explode('@', $this->_params['cyradmin']);
+        [$admin] = explode('@', $this->_params['cyradmin']);
 
         $mailbox = $this->_params['userhierarchy'] . $userId;
 
         try {
-            $this->_imap->setACL($mailbox, $admin, array('rights' => 'lrswipcda'));
+            $this->_imap->setACL($mailbox, $admin, ['rights' => 'lrswipcda']);
             $this->_imap->deleteMailbox($mailbox);
         } catch (Horde_Imap_Client_Exception $e) {
             throw new Horde_Auth_Exception($e);
@@ -333,15 +345,19 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
         if (!empty($this->_params['domain_field']) &&
             ($this->_params['domain_field'] != 'none')) {
             /* Build the SQL query with domain. */
-            $query = sprintf('SELECT %s, %s FROM %s',
-                             $this->_params['username_field'],
-                             $this->_params['domain_field'],
-                             $this->_params['table']);
+            $query = sprintf(
+                'SELECT %s, %s FROM %s',
+                $this->_params['username_field'],
+                $this->_params['domain_field'],
+                $this->_params['table']
+            );
         } else {
             /* Build the SQL query without domain. */
-            $query = sprintf('SELECT %s FROM %s',
-                             $this->_params['username_field'],
-                             $this->_params['table']);
+            $query = sprintf(
+                'SELECT %s FROM %s',
+                $this->_params['username_field'],
+                $this->_params['table']
+            );
         }
         if ($sort) {
             $query .= sprintf(" ORDER BY %s", $this->_params['username_field']);
@@ -354,7 +370,7 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
         }
 
         /* Loop through and build return array. */
-        $users = array();
+        $users = [];
         if (!empty($this->_params['domain_field']) &&
             ($this->_params['domain_field'] != 'none')) {
             foreach ($result as $ar) {
@@ -385,7 +401,7 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
     {
         if (!empty($this->_params['domain_field']) &&
             ($this->_params['domain_field'] != 'none')) {
-            list($name, $domain) = explode('@', $oldID);
+            [$name, $domain] = explode('@', $oldID);
             /* Build the SQL query with domain. */
             $query = sprintf(
                 'UPDATE %s SET %s = ? WHERE %s = ? and %s = ?',
@@ -394,11 +410,11 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
                 $this->_params['username_field'],
                 $this->_params['domain_field']
             );
-            $values = array(
+            $values = [
                 Horde_Auth::getCryptedPassword($credentials['password'], '', $this->_params['encryption'], $this->_params['show_encryption']),
                 $name,
-                $domain
-            );
+                $domain,
+            ];
         } else {
             /* Build the SQL query. */
             $query = sprintf(
@@ -407,10 +423,10 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
                 $this->_params['password_field'],
                 $this->_params['username_field']
             );
-            $values = array(
+            $values = [
                 Horde_Auth::getCryptedPassword($credentials['password'], '', $this->_params['encryption'], $this->_params['show_encryption']),
-                $oldID
-            );
+                $oldID,
+            ];
         }
 
         try {
