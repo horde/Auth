@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Copyright 2004-2017 Horde LLC (http://www.horde.org/)
  *
@@ -32,12 +33,12 @@ class Horde_Auth_Login extends Horde_Auth_Base
      *
      * @var array
      */
-    protected $_exclude = array(
+    protected $_exclude = [
         'root', 'daemon', 'bin', 'sys', 'sync', 'games', 'man', 'lp', 'mail',
         'news', 'uucp', 'proxy', 'postgres', 'www-data', 'backup', 'operator',
         'list', 'irc', 'gnats', 'nobody', 'identd', 'sshd', 'gdm', 'postfix',
-        'mysql', 'cyrus', 'ftp'
-    );
+        'mysql', 'cyrus', 'ftp',
+    ];
 
     /**
      * Constructs a new Login authentication object.
@@ -48,12 +49,20 @@ class Horde_Auth_Login extends Horde_Auth_Base
      *              DEFAULT: /bin/su
      * </pre>
      */
-    public function __construct(array $params = array())
+    public function __construct(array $params = [])
     {
         if (empty($params['location'])) {
             $params['location'] = '/bin/su';
         }
 
+        // A default regex to match valid user names. This is user input
+        if (empty($params['allowed_user_regex'])) {
+            $params['allowed_user_regex'] = '/^[a-zA-Z0-9._-]+$/';
+        }
+        // A default limit for the password length. We want to disallow obviously malicious requests.
+        if (empty($params['password_length_limit'])) {
+            $params['password_length_limit'] = 2048;
+        }
         parent::__construct($params);
     }
 
@@ -68,7 +77,14 @@ class Horde_Auth_Login extends Horde_Auth_Base
     protected function _authenticate($userId, $credentials)
     {
         if (empty($credentials['password'])) {
-            throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
+            throw new Horde_Auth_Exception('Empty Password', Horde_Auth::REASON_BADLOGIN);
+        }
+
+        if (strlen($credentials['password']) > $this->_params['password_length_limit']) {
+            throw new Horde_Auth_Exception('Password too long', Horde_Auth::REASON_BADLOGIN);
+        }
+        if (!preg_match($this->_params['allowed_user_regex'], $userId)) {
+            throw new Horde_Auth_Exception('Invalid user name', Horde_Auth::REASON_BADLOGIN);
         }
 
         $proc = @popen($this->_params['location'] . ' -c /bin/true ' . $userId, 'w');
