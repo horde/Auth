@@ -1,16 +1,26 @@
 <?php
+
 /**
  * @category   Horde
  * @package    Auth
  * @subpackage UnitTests
  */
-namespace Horde\Auth\Unit\Sql;
-use Horde\Auth\TestCase;
-use \Horde_Db_Migration_Migrator;
-use \Horde_Auth_Sql;
 
-class Base extends TestCase
+namespace Horde\Auth\Test\Sql;
+
+use Horde\Auth\Test\BaseTestCase;
+use Horde_Db_Migration_Migrator;
+use Horde_Auth_Sql;
+use RuntimeException;
+use PHPUnit\Framework\Attributes\CoversNothing;
+
+#[CoversNothing]
+class Base extends BaseTestCase
 {
+    public function __construct()
+    {
+        parent::__construct(static::class);
+    }
     protected static $db;
 
     protected static $auth;
@@ -21,22 +31,19 @@ class Base extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        $dir = __DIR__ . '/../../../../../migration/Horde/Auth';
+        $dir = dirname(__FILE__, 4) . '/migration/Horde/Auth';
         if (!is_dir($dir)) {
-            error_reporting(E_ALL & ~E_DEPRECATED);
-            $dir = PEAR_Config::singleton()
-                ->get('data_dir', null, 'pear.horde.org')
-                . '/Horde_Auth/migration';
-            error_reporting(E_ALL);
+            throw new RuntimeException("Did not find Horde Auth migration files in $dir");
         }
         self::$migrator = new Horde_Db_Migration_Migrator(
             self::$db,
             null,
-            array('migrationsPath' => $dir,
-                  'schemaTableName' => 'horde_auth_schema_info'));
+            ['migrationsPath' => $dir,
+                'schemaTableName' => 'horde_auth_schema_info']
+        );
         self::$migrator->up();
 
-        self::$auth = new Horde_Auth_Sql(array('db' => self::$db, 'encryption' => 'plain'));
+        self::$auth = new Horde_Auth_Sql(['db' => self::$db, 'encryption' => 'plain']);
         // Don't rely on auth->addUser as this is the unit under test
         $row = "INSERT INTO horde_users VALUES ('mozilla', 'liketokyo', NULL, NULL);";
         self::$db->execute($row);
@@ -68,7 +75,7 @@ class Base extends TestCase
     public function testAuthenticate()
     {
         if (class_exists('Horde_Db_Adapter_Pdo_Sqlite')) {
-            $this->assertTrue(self::$auth->authenticate('tux', array('password' => 'fish')));
+            $this->assertTrue(self::$auth->authenticate('tux', ['password' => 'fish']));
         }
     }
 
@@ -76,11 +83,11 @@ class Base extends TestCase
     {
         $resultUnsorted = self::$auth->listUsers();
         sort($resultUnsorted);
-        $this->assertEquals(array('konqui', 'mozilla', 'tux'), $resultUnsorted);
+        $this->assertEquals(['konqui', 'mozilla', 'tux'], $resultUnsorted);
     }
     public function testListUsersWithSorting()
     {
-        $this->assertEquals(array('konqui', 'mozilla', 'tux'), self::$auth->listUsers(true));
+        $this->assertEquals(['konqui', 'mozilla', 'tux'], self::$auth->listUsers(true));
     }
 
     public function testLockCapability()

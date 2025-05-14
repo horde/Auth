@@ -21,7 +21,7 @@
             "role": "lead"
         }
     ],
-    "time": "2025-05-12",
+    "time": "2025-05-14",
     "repositories": [],
     "require": {
         "php": "^7.4 || ^8",
@@ -30,7 +30,14 @@
         "horde/util": "^3 || dev-FRAMEWORK_6_0",
         "ext-hash": "*"
     },
-    "require-dev": {},
+    "require-dev": {
+        "phpunit/phpunit": "^12",
+        "friendsofphp/php-cs-fixer": "^3",
+        "phpstan/phpstan": "^2",
+        "horde/db": "^3 || dev-FRAMEWORK_6_0",
+        "horde/test": "^3 || dev-FRAMEWORK_6_0",
+        "rector/rector": "^2.0"
+    },
     "suggest": {
         "horde/db": "^3 || dev-FRAMEWORK_6_0",
         "horde/history": "^3 || dev-FRAMEWORK_6_0",
@@ -53,10 +60,14 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Horde\\Auth\\Test\\": "test/"
+            "Horde\\Auth\\Test\\": "test/",
+            "Horde\\Auth\\Test\\Sql\\": "test/sql/",
+            "Horde\\Auth\\Test\\Unit\\": "test/unit/"
         }
     },
     "config": {
         "allow-plugins": {}
-    }
+    },
+    "prefer-stable": true,
+    "minimum-stability": "dev"
 }

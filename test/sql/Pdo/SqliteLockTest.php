@@ -1,16 +1,17 @@
 <?php
+
 /**
  * Prepare the test setup.
  */
-namespace Horde\Auth\Unit\Sql\Pdo;
-use Horde\Auth\Unit\Sql\Locks;
-use \Horde_Test_Factory_Db;
 
-/**
- * @category   Horde
- * @package    Auth
- * @subpackage UnitTests
- */
+namespace Horde\Auth\Test\Sql\Pdo;
+
+use Horde\Auth\Test\Unit\Sql\Locks;
+use Horde_Test_Factory_Db;
+
+use PHPUnit\Framework\Attributes\CoversNothing;
+
+#[CoversNothing]
 
 class SqliteLockTest extends Locks
 {

@@ -1,17 +1,25 @@
 <?php
+
 /**
  * Prepare the test setup.
  */
-namespace Horde\Auth\Unit\Sql;
+
+namespace Horde\Auth\Test\Sql;
 
 /**
  * @category   Horde
  * @package    Auth
  * @subpackage UnitTests
  */
+use PHPUnit\Framework\Attributes\CoversNothing;
 
+#[CoversNothing]
 class Locks extends Base
 {
+    public function __construct()
+    {
+        parent::__construct(static::class);
+    }
     protected static $locksMigrator;
 
     protected static $locks;
@@ -22,10 +30,10 @@ class Locks extends Base
     {
         parent::setUpBeforeClass();
 
-        if (is_dir(__DIR__ .'/../../../../../../Lock/migration')) {
-            $lockMigrationsPath = __DIR__ .'/../../../../../../Lock/migration';
-        } elseif (is_dir(__DIR__ .'/../../../../../../deps/Lock/migration')) {
-            $lockMigrationsPath = __DIR__ .'/../../../../../../deps/Lock/migration';
+        if (is_dir(__DIR__ . '/../../../../../../Lock/migration')) {
+            $lockMigrationsPath = __DIR__ . '/../../../../../../Lock/migration';
+        } elseif (is_dir(__DIR__ . '/../../../../../../deps/Lock/migration')) {
+            $lockMigrationsPath = __DIR__ . '/../../../../../../deps/Lock/migration';
             // how would that work for any possible pear_dir ?
         } else {
             self::$skip = 'Could not determine path to Horde_Lock migration';
@@ -34,16 +42,17 @@ class Locks extends Base
         self::$locksMigrator = new Horde_Db_Migration_Migrator(
             self::$db,
             null,//$logger,
-            array('migrationsPath' => $lockMigrationsPath,
-                  'schemaTableName' => 'horde_lock_schema_info'));
+            ['migrationsPath' => $lockMigrationsPath,
+                'schemaTableName' => 'horde_lock_schema_info']
+        );
         self::$locksMigrator->up();
 
-        self::$locks = new Horde_Lock_Sql(array('db' => self::$db));
+        self::$locks = new Horde_Lock_Sql(['db' => self::$db]);
 
-        self::$auth = new Horde_Auth_Sql(array('db' => self::$db,
-                                                'encryption' => 'plain',
-                                                'lock_api'   => self::$locks
-                                                ));
+        self::$auth = new Horde_Auth_Sql(['db' => self::$db,
+            'encryption' => 'plain',
+            'lock_api'   => self::$locks,
+        ]);
 
     }
 
@@ -68,10 +77,10 @@ class Locks extends Base
     }
 
 
-     public function testAuthenticate()
-     {
-         $this->assertTrue(self::$auth->authenticate('tux', array('password' => 'fish')));
-     }
+    public function testAuthenticate()
+    {
+        $this->assertTrue(self::$auth->authenticate('tux', ['password' => 'fish']));
+    }
 
 
     public function testLockUserOnceWorks()
@@ -103,7 +112,7 @@ class Locks extends Base
     public function testLockedUserCannotLogin()
     {
         self::$auth->lockUser('konqui');
-        $this->assertFalse(self::$auth->authenticate('konqui', array('password' => 'kde')));
+        $this->assertFalse(self::$auth->authenticate('konqui', ['password' => 'kde']));
     }
 
     public function testUnlockUnlockedDoesNotThrowException()

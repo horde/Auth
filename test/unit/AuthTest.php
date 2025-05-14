@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Test the Horde_Auth:: class.
  *
@@ -13,23 +14,25 @@
  * @author     Gunnar Wrobel <wrobel@pardus.de>
  * @license    http://www.horde.org/licenses/lgpl21 LGPL-2.1
  */
-namespace Horde\Auth\Unit;
-use Horde\Auth\TestCase;
-use \Horde_Auth;
 
-class AuthTest extends TestCase
+namespace Horde\Auth\Test\Unit;
+
+use Horde\Auth\Test\BaseTestCase;
+use Horde_Auth;
+
+use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\DataProvider;
+
+#[CoversNothing]
+class AuthTest extends BaseTestCase
 {
-    /**
-     * @dataProvider getCredentials
-     */
+    #[DataProvider('getCredentials')]
     public function testGetSalt($encryption, $password, $salt)
     {
         $this->assertEquals($salt, Horde_Auth::getSalt($encryption, $password, 'foobar'));
     }
 
-    /**
-     * @dataProvider getCredentials
-     */
+    #[DataProvider('getCredentials')]
     public function testGetCryptedPassword($encryption, $password, $salt, $show_encryption = false)
     {
         $this->assertEquals($password, Horde_Auth::getCryptedPassword('foobar', $password, $encryption, $show_encryption));

@@ -1,17 +1,18 @@
 <?php
+
 /**
  * Prepare the test setup.
  */
-namespace Horde\Auth\Unit\Sql\Pdo;
-use Horde\Auth\Unit\Sql\Base;
-use \Horde_Test_Factory_Db;
-use \Horde_Db_Migration_Migrator;
 
-/**
- * @category   Horde
- * @package    Auth
- * @subpackage UnitTests
- */
+namespace Horde\Auth\Test\Sql\Pdo;
+
+use Horde\Auth\Test\Unit\Sql\Base;
+use Horde_Test_Factory_Db;
+use Horde_Db_Migration_Migrator;
+
+use PHPUnit\Framework\Attributes\CoversNothing;
+
+#[CoversNothing]
 
 class SqliteTest extends Base
 {

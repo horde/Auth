@@ -61,3 +61,10 @@ dependencies:
       ftp: '*'
       pam: '*'
       sasl: '*'
+  dev:
+    composer:
+      phpunit/phpunit: ^12
+      friendsofphp/php-cs-fixer: ^3
+      phpstan/phpstan: ^2
+      horde/db: ^3
+      horde/test: ^3
