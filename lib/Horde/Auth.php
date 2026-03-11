@@ -27,6 +27,11 @@
 class Horde_Auth
 {
     /**
+     * Authentication success
+     */
+    public const REASON_SUCCESS = 0;
+    
+    /**
      * Authentication failure reason: Bad username and/or password
      */
     public const REASON_BADLOGIN = 1;
