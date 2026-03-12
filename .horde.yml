@@ -28,7 +28,7 @@ authors:
     active: false
     role: lead
 version:
-  release: 3.0.0-alpha9
+  release: 3.0.0-alpha10
   api: 3.0.0alpha1
 state:
   release: alpha
@@ -68,3 +68,4 @@ dependencies:
       phpstan/phpstan: ^2
       horde/db: ^3
       horde/test: ^3
+vendor: horde

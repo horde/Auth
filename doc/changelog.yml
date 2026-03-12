@@ -1,4 +1,15 @@
 ---
+3.0.0-alpha10:
+  api: 3.0.0-alpha10
+  state:
+    release: alpha
+    api: alpha
+  date: 2026-03-12
+  license:
+    identifier: LGPL-2.1-only
+    uri: https://spdx.org/licenses/LGPL-2.1-only.html
+  notes: |-
+    fix: add REASON_SUCCESS constant
 3.0.0-alpha9:
   api: 3.0.0-alpha1
   state:

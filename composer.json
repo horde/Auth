@@ -1,7 +1,7 @@
 {
     "name": "horde/auth",
     "description": "Authentication and user management library",
-    "type": "library",
+    "type": "horde-library",
     "homepage": "https://www.horde.org/libraries/Horde_Auth",
     "license": "LGPL-2.1-only",
     "authors": [
@@ -21,9 +21,10 @@
             "role": "lead"
         }
     ],
-    "time": "2025-05-14",
+    "time": "2026-03-12",
     "repositories": [],
     "require": {
+        "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || ^3 || ^2",
         "php": "^7.4 || ^8",
         "horde/exception": "^3 || dev-FRAMEWORK_6_0",
         "horde/translation": "^3 || dev-FRAMEWORK_6_0",
@@ -60,12 +61,15 @@
     "autoload-dev": {
         "psr-4": {
             "Horde\\Auth\\Test\\": "test/",
-            "Horde\\Auth\\Test\\Sql\\": "test/sql/",
-            "Horde\\Auth\\Test\\Kolab\\": "test/kolab/",
-            "Horde\\Auth\\Test\\Unit\\": "test/unit/"
+            "Horde\\Auth\\Test\\Fixtures\\": "test/fixtures/"
         }
     },
     "config": {
         "allow-plugins": {}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-FRAMEWORK_6_0": "3.x-dev"
+        }
     }
 }
