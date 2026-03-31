@@ -88,8 +88,8 @@ class Horde_Auth_Http extends Horde_Auth_Base
      */
     protected function _authenticate($userId, $credentials)
     {
-        if (empty($credentials['password']) ||
-            empty($this->_users[$userId])) {
+        if (empty($credentials['password'])
+            || empty($this->_users[$userId])) {
             throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
         }
 
@@ -122,8 +122,8 @@ class Horde_Auth_Http extends Horde_Auth_Base
      */
     public function transparent()
     {
-        if (empty($_SERVER['PHP_AUTH_USER']) ||
-            empty($_SERVER['PHP_AUTH_PW'])) {
+        if (empty($_SERVER['PHP_AUTH_USER'])
+            || empty($_SERVER['PHP_AUTH_PW'])) {
             return false;
         }
 

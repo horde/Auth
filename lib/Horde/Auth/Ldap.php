@@ -227,11 +227,11 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
 
         if ($this->_params['password_expiration'] == 'yes') {
             $shadow = $this->_lookupShadow($dn);
-            if ($shadow['shadowmax'] && $shadow['shadowlastchange'] &&
-                $shadow['shadowwarning']) {
+            if ($shadow['shadowmax'] && $shadow['shadowlastchange']
+                && $shadow['shadowwarning']) {
                 $today = floor(time() / 86400);
-                $toexpire = $shadow['shadowlastchange'] +
-                            $shadow['shadowmax'] - $today;
+                $toexpire = $shadow['shadowlastchange']
+                            + $shadow['shadowmax'] - $today;
 
                 $warnday = $shadow['shadowlastchange'] + $shadow['shadowmax'] - $shadow['shadowwarning'];
                 if ($today >= $warnday) {
@@ -368,9 +368,9 @@ class Horde_Auth_Ldap extends Horde_Auth_Base
 
             /* If shadowmin hasn't yet expired only change when we are
                administrator */
-            if ($shadow['shadowlastchange'] &&
-                $shadow['shadowmin'] &&
-                ($shadow['shadowlastchange'] + $shadow['shadowmin'] > (time() / 86400))) {
+            if ($shadow['shadowlastchange']
+                && $shadow['shadowmin']
+                && ($shadow['shadowlastchange'] + $shadow['shadowmin'] > (time() / 86400))) {
                 throw new Horde_Auth_Exception('Minimum password age has not yet expired');
             }
 

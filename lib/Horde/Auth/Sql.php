@@ -106,13 +106,13 @@ class Horde_Auth_Sql extends Horde_Auth_Base
         parent::__construct($params);
 
         /* Only allow limits when there is a storage configured */
-        if ((empty($params['soft_expiration_field'])) &&
-            ($params['soft_expiration_window'] > 0)) {
+        if ((empty($params['soft_expiration_field']))
+            && ($params['soft_expiration_window'] > 0)) {
             throw new InvalidArgumentException('You cannot set [soft_expiration_window] without [soft_expiration_field].');
         }
 
-        if (($params['hard_expiration_field'] == '') &&
-            ($params['hard_expiration_window'] > 0)) {
+        if (($params['hard_expiration_field'] == '')
+            && ($params['hard_expiration_window'] > 0)) {
             throw new InvalidArgumentException('You cannot set [hard_expiration_window] without [hard_expiration_field].');
         }
 
@@ -142,21 +142,21 @@ class Horde_Auth_Sql extends Horde_Auth_Base
             throw new Horde_Auth_Exception('', Horde_Auth::REASON_FAILED);
         }
 
-        if (!$row ||
-            !$this->_comparePasswords($row[$this->_params['password_field']], $credentials['password'])) {
+        if (!$row
+            || !$this->_comparePasswords($row[$this->_params['password_field']], $credentials['password'])) {
             throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
         }
 
         $now = time();
-        if (!empty($this->_params['hard_expiration_field']) &&
-            !empty($row[$this->_params['hard_expiration_field']]) &&
-            ($now > $row[$this->_params['hard_expiration_field']])) {
+        if (!empty($this->_params['hard_expiration_field'])
+            && !empty($row[$this->_params['hard_expiration_field']])
+            && ($now > $row[$this->_params['hard_expiration_field']])) {
             throw new Horde_Auth_Exception('', Horde_Auth::REASON_EXPIRED);
         }
 
-        if (!empty($this->_params['soft_expiration_field']) &&
-            !empty($row[$this->_params['soft_expiration_field']]) &&
-            ($now > $row[$this->_params['soft_expiration_field']])) {
+        if (!empty($this->_params['soft_expiration_field'])
+            && !empty($row[$this->_params['soft_expiration_field']])
+            && ($now > $row[$this->_params['soft_expiration_field']])) {
             $this->setCredential('change', true);
             $this->setCredential('expire', $now);
         }

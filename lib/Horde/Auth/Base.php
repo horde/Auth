@@ -149,8 +149,8 @@ abstract class Horde_Auth_Base
 
         try {
             $this->_credentials['userId'] = $userId;
-            if (($this->hasCapability('lock')) &&
-                $this->isLocked($userId)) {
+            if (($this->hasCapability('lock'))
+                && $this->isLocked($userId)) {
                 $details = $this->isLocked($userId, true);
                 if ($details['lock_timeout'] == Horde_Lock::PERMANENT) {
                     $message = Horde_Auth_Translation::t("Your account has been permanently locked");
@@ -167,10 +167,10 @@ abstract class Horde_Auth_Base
             }
             return true;
         } catch (Horde_Auth_Exception $e) {
-            if (($code = $e->getCode()) &&
-                $code != Horde_Auth::REASON_MESSAGE) {
-                if (($code == Horde_Auth::REASON_BADLOGIN) &&
-                    $this->hasCapability('badlogincount')) {
+            if (($code = $e->getCode())
+                && $code != Horde_Auth::REASON_MESSAGE) {
+                if (($code == Horde_Auth::REASON_BADLOGIN)
+                    && $this->hasCapability('badlogincount')) {
                     $this->_badLogin($userId);
                 }
                 $this->setError($code, $e->getMessage());
@@ -362,9 +362,9 @@ abstract class Horde_Auth_Base
                 ['action' => 'login_failed', 'who' => $userId]
             );
             $history_log = $this->_history_api->getHistory($history_identifier);
-            if ($this->_params['login_block_count'] > 0 &&
-                $this->_params['login_block_count'] <= $history_log->count() &&
-                $this->hasCapability('lock')) {
+            if ($this->_params['login_block_count'] > 0
+                && $this->_params['login_block_count'] <= $history_log->count()
+                && $this->hasCapability('lock')) {
                 $this->lockUser($userId, $this->_params['login_block_time']);
             }
         } catch (Horde_History_Exception $e) {

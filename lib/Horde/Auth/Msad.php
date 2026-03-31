@@ -96,8 +96,8 @@ class Horde_Auth_Msad extends Horde_Auth_Ldap
             $entry['objectclass'][2] = "organizationalPerson";
             $entry['objectclass'][3] = "user";
 
-            $entry['description'] = (isset($credentials['description'])) ?
-                $credentials['description'] : 'New horde user';
+            $entry['description'] = (isset($credentials['description']))
+                ? $credentials['description'] : 'New horde user';
 
             if ($this->_params['ssl']) {
                 $entry["AccountDisabled"] = false;
