@@ -19,20 +19,19 @@ namespace Horde\Auth\Test\Unit;
 
 use Horde\Auth\Test\BaseTestCase;
 use Horde_Auth;
-
-use PHPUnit\Framework\Attributes\CoversNothing;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\DataProvider;
 
-#[CoversNothing]
+#[CoversClass(Horde_Auth::class)]
 class AuthTest extends BaseTestCase
 {
-    #[DataProvider('getCredentials')]
+    #[DataProvider('getSaltData')]
     public function testGetSalt($encryption, $password, $salt)
     {
         $this->assertEquals($salt, Horde_Auth::getSalt($encryption, $password, 'foobar'));
     }
 
-    #[DataProvider('getCredentials')]
+    #[DataProvider('getCryptedData')]
     public function testGetCryptedPassword($encryption, $password, $salt, $show_encryption = false)
     {
         $this->assertEquals($password, Horde_Auth::getCryptedPassword('foobar', $password, $encryption, $show_encryption));

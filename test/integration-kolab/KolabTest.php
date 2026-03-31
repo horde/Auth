@@ -3,7 +3,7 @@
 /**
  * Test the Horde_Auth_Kolab:: class.
  *
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -15,21 +15,28 @@
  * @license    http://www.horde.org/licenses/lgpl21 LGPL-2.1
  */
 
-namespace Horde\Auth\Test\Unit;
+namespace Horde\Auth\Test\IntegrationKolab;
 
 use Horde\Auth\Test\BaseTestCase;
+use Horde_Auth_Kolab;
+use Horde_Auth_Exception;
+use Horde_Auth;
+use Horde_Kolab_Session_Exception_Badlogin;
+use Horde_Kolab_Session_Exception;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-use PHPUnit\Framework\Attributes\CoversNothing;
-
-#[CoversNothing]
+#[CoversClass(Horde_Auth_Kolab::class)]
 class KolabTest extends BaseTestCase
 {
+    private $kolab;
+    private Horde_Auth_Kolab $driver;
+
     public function setUp(): void
     {
         if (!interface_exists('Horde_Kolab_Session')) {
             $this->markTestSkipped('The Kolab_Session package is apparently not installed (Interface Horde_Kolab_Session is unavailable).');
         }
-        $this->kolab = $this->getMock('Horde_Kolab_Session');
+        $this->kolab = $this->createMock('Horde_Kolab_Session');
         $this->driver = new Horde_Auth_Kolab(['kolab' => $this->kolab]);
     }
 

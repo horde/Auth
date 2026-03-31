@@ -1,10 +1,9 @@
 <?php
 
 /**
- * PHP version 5
  * Test the Horde_Auth_Passwd:: class.
  *
- * Copyright 2010-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you
  * did not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -20,11 +19,13 @@ namespace Horde\Auth\Test\Unit;
 
 use Horde\Auth\Test\BaseTestCase;
 use Horde_Auth_Passwd;
+use PHPUnit\Framework\Attributes\CoversClass;
 
-use PHPUnit\Framework\Attributes\CoversNothing;
-#[CoversNothing]
+#[CoversClass(Horde_Auth_Passwd::class)]
 class PasswdTest extends BaseTestCase
 {
+    private Horde_Auth_Passwd $driver;
+
     public function setUp(): void
     {
         $this->driver = new Horde_Auth_Passwd(

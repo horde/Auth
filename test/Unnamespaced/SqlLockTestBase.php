@@ -1,25 +1,21 @@
 <?php
 
 /**
- * Prepare the test setup.
- */
-
-namespace Horde\Auth\Test\Sql;
-
-/**
+ * Copyright 2010-2026 Horde LLC (http://www.horde.org/)
+ *
+ * See the enclosed file LICENSE for license information (LGPL). If you
+ * did not receive this file, see http://www.horde.org/licenses/lgpl21.
+ *
  * @category   Horde
  * @package    Auth
  * @subpackage UnitTests
  */
-use PHPUnit\Framework\Attributes\CoversNothing;
 
-#[CoversNothing]
-class Locks extends Base
+use PHPUnit\Framework\Attributes\CoversClass;
+
+#[CoversClass(Horde_Auth_Sql::class)]
+class SqlLockTestBase extends SqlTestBase
 {
-    public function __construct()
-    {
-        parent::__construct(static::class);
-    }
     protected static $locksMigrator;
 
     protected static $locks;
@@ -30,50 +26,50 @@ class Locks extends Base
     {
         parent::setUpBeforeClass();
 
-        if (is_dir(__DIR__ . '/../../../../../../Lock/migration')) {
-            $lockMigrationsPath = __DIR__ . '/../../../../../../Lock/migration';
-        } elseif (is_dir(__DIR__ . '/../../../../../../deps/Lock/migration')) {
-            $lockMigrationsPath = __DIR__ . '/../../../../../../deps/Lock/migration';
-            // how would that work for any possible pear_dir ?
-        } else {
+        // Find Lock migration path
+        $possiblePaths = [
+            __DIR__ . '/../../vendor/horde/lock/migration',
+            __DIR__ . '/../../../../../../Lock/migration',
+            __DIR__ . '/../../../../../../deps/Lock/migration',
+        ];
+
+        $lockMigrationsPath = null;
+        foreach ($possiblePaths as $path) {
+            if (is_dir($path)) {
+                $lockMigrationsPath = $path;
+                break;
+            }
+        }
+
+        if (!$lockMigrationsPath) {
             self::$skip = 'Could not determine path to Horde_Lock migration';
             return;
         }
-        self::$locksMigrator = new Horde_Db_Migration_Migrator(
+
+        self::$locksMigrator = new \Horde_Db_Migration_Migrator(
             self::$db,
-            null,//$logger,
+            null,
             ['migrationsPath' => $lockMigrationsPath,
                 'schemaTableName' => 'horde_lock_schema_info']
         );
         self::$locksMigrator->up();
 
-        self::$locks = new Horde_Lock_Sql(['db' => self::$db]);
+        self::$locks = new \Horde_Lock_Sql(['db' => self::$db]);
 
-        self::$auth = new Horde_Auth_Sql(['db' => self::$db,
+        self::$auth = new \Horde_Auth_Sql(['db' => self::$db,
             'encryption' => 'plain',
             'lock_api'   => self::$locks,
         ]);
-
     }
 
     public function setUp(): void
     {
-        if (!class_exists('Horde_Db')) {
-            $this->markTestSkipped('The Horde_Db package is not installed!');
-        }
-        if (!class_exists('Horde_Lock')) {
-            $this->markTestSkipped('The Horde_Lock package is not installed!');
-        }
         if (self::$skip) {
             $this->markTestSkipped(self::$skip);
         }
-        if (!self::$db) {
-            $this->markTestSkipped(self::$reason);
-        } else {
-            // portability: use DELETE because SQLite has no truncate
-            $sql = "DELETE FROM horde_locks";
-            self::$db->execute($sql);
-        }
+        // portability: use DELETE because SQLite has no truncate
+        $sql = "DELETE FROM horde_locks";
+        self::$db->execute($sql);
     }
 
 
@@ -86,14 +82,12 @@ class Locks extends Base
     public function testLockUserOnceWorks()
     {
         self::$auth->lockUser('konqui');
+        $this->assertTrue(self::$auth->isLocked('konqui'));
     }
-
-    /**
-     * @expectedException Horde_Auth_Exception
-     */
 
     public function testLockUserTwiceFails()
     {
+        $this->expectException(\Horde_Auth_Exception::class);
         self::$auth->lockUser('konqui');
         self::$auth->lockUser('konqui');
     }
@@ -120,6 +114,7 @@ class Locks extends Base
         self::$auth->unlockUser('konqui');
         self::$auth->unlockUser('konqui');
         self::$auth->unlockUser('konqui');
+        $this->assertFalse(self::$auth->isLocked('konqui'));
     }
 
 }
