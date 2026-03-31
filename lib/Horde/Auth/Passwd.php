@@ -272,8 +272,8 @@ class Horde_Auth_Passwd extends Horde_Auth_Base
             throw new Horde_Auth_Exception('', Horde_Auth::REASON_FAILED);
         }
 
-        if (!isset($this->_users[$userId]) ||
-            !$this->_comparePasswords($this->_users[$userId]['password'], $credentials['password'])) {
+        if (!isset($this->_users[$userId])
+            || !$this->_comparePasswords($this->_users[$userId]['password'], $credentials['password'])) {
             throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
         }
 

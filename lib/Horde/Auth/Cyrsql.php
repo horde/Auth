@@ -144,8 +144,8 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
      */
     public function __construct(array $params = [])
     {
-        if (!isset($params['imap']) ||
-            !($params['imap'] instanceof Horde_Imap_Client_Base)) {
+        if (!isset($params['imap'])
+            || !($params['imap'] instanceof Horde_Imap_Client_Base)) {
             throw new InvalidArgumentException('Missing imap parameter.');
         }
         $this->_imap = $params['imap'];
@@ -172,8 +172,8 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
      */
     protected function _authenticate($userId, $credentials)
     {
-        if (!empty($this->_params['domain_field']) &&
-            ($this->_params['domain_field'] != 'none')) {
+        if (!empty($this->_params['domain_field'])
+            && ($this->_params['domain_field'] != 'none')) {
             /* Build the SQL query with domain. */
             $query = sprintf(
                 'SELECT * FROM %s WHERE %s = ? AND %s = ?',
@@ -198,21 +198,21 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
             throw new Horde_Auth_Exception('', Horde_Auth::REASON_FAILED);
         }
 
-        if (!$row ||
-            !$this->_comparePasswords($row[$this->_params['password_field']], $credentials['password'])) {
+        if (!$row
+            || !$this->_comparePasswords($row[$this->_params['password_field']], $credentials['password'])) {
             throw new Horde_Auth_Exception('', Horde_Auth::REASON_BADLOGIN);
         }
 
         $now = time();
-        if (!empty($this->_params['hard_expiration_field']) &&
-            !empty($row[$this->_params['hard_expiration_field']]) &&
-            ($now > $row[$this->_params['hard_expiration_field']])) {
+        if (!empty($this->_params['hard_expiration_field'])
+            && !empty($row[$this->_params['hard_expiration_field']])
+            && ($now > $row[$this->_params['hard_expiration_field']])) {
             throw new Horde_Auth_Exception('', Horde_Auth::REASON_EXPIRED);
         }
 
-        if (!empty($this->_params['soft_expiration_field']) &&
-            !empty($row[$this->_params['soft_expiration_field']]) &&
-            ($now > $row[$this->_params['soft_expiration_field']])) {
+        if (!empty($this->_params['soft_expiration_field'])
+            && !empty($row[$this->_params['soft_expiration_field']])
+            && ($now > $row[$this->_params['soft_expiration_field']])) {
             $this->setCredential('change', true);
         }
     }
@@ -227,8 +227,8 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
      */
     public function addUser($userId, $credentials)
     {
-        if (!empty($this->_params['domain_field']) &&
-            ($this->_params['domain_field'] != 'none')) {
+        if (!empty($this->_params['domain_field'])
+            && ($this->_params['domain_field'] != 'none')) {
             [$name, $domain] = explode('@', $userId);
 
             $query = sprintf(
@@ -267,8 +267,8 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
         try {
             $this->_imap->createMailbox($mailbox);
             $this->_imap->setACL($mailbox, $this->_params['cyradmin'], ['rights' => 'lrswipcda']);
-            if (isset($this->_params['quota']) &&
-                ($this->_params['quota'] >= 0)) {
+            if (isset($this->_params['quota'])
+                && ($this->_params['quota'] >= 0)) {
                 $this->_imap->setQuota($mailbox, ['storage' => $this->_params['quota']]);
             }
         } catch (Horde_Imap_Client_Exception $e) {
@@ -293,8 +293,8 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
      */
     public function removeUser($userId)
     {
-        if (!empty($this->_params['domain_field']) &&
-            ($this->_params['domain_field'] != 'none')) {
+        if (!empty($this->_params['domain_field'])
+            && ($this->_params['domain_field'] != 'none')) {
             [$name, $domain] = explode('@', $userId);
 
             /* Build the SQL query. */
@@ -342,8 +342,8 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
      */
     public function listUsers($sort = false)
     {
-        if (!empty($this->_params['domain_field']) &&
-            ($this->_params['domain_field'] != 'none')) {
+        if (!empty($this->_params['domain_field'])
+            && ($this->_params['domain_field'] != 'none')) {
             /* Build the SQL query with domain. */
             $query = sprintf(
                 'SELECT %s, %s FROM %s',
@@ -371,8 +371,8 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
 
         /* Loop through and build return array. */
         $users = [];
-        if (!empty($this->_params['domain_field']) &&
-            ($this->_params['domain_field'] != 'none')) {
+        if (!empty($this->_params['domain_field'])
+            && ($this->_params['domain_field'] != 'none')) {
             foreach ($result as $ar) {
                 if (!in_array($ar[$this->_params['username_field']], $this->_params['hidden_accounts'])) {
                     $users[] = $ar[$this->_params['username_field']] . '@' . $ar[$this->_params['domain_field']];
@@ -399,8 +399,8 @@ class Horde_Auth_Cyrsql extends Horde_Auth_Sql
      */
     public function updateUser($oldID, $newID, $credentials)
     {
-        if (!empty($this->_params['domain_field']) &&
-            ($this->_params['domain_field'] != 'none')) {
+        if (!empty($this->_params['domain_field'])
+            && ($this->_params['domain_field'] != 'none')) {
             [$name, $domain] = explode('@', $oldID);
             /* Build the SQL query with domain. */
             $query = sprintf(

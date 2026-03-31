@@ -30,7 +30,7 @@ class Horde_Auth
      * Authentication success
      */
     public const REASON_SUCCESS = 0;
-    
+
     /**
      * Authentication failure reason: Bad username and/or password
      */
@@ -181,9 +181,9 @@ class Horde_Auth
                         $j = 5;
                     }
                     $p[] = self::_toAPRMD5(
-                        (ord($binary[$i]) << 16) |
-                                           (ord($binary[$k]) << 8) |
-                                           (ord($binary[$j])),
+                        (ord($binary[$i]) << 16)
+                                           | (ord($binary[$k]) << 8)
+                                           | (ord($binary[$j])),
                         5
                     );
                 }
@@ -359,13 +359,13 @@ class Horde_Auth
     {
         /* Alternate consonant and vowel random chars with two random numbers
          * at the end. This should produce a fairly pronounceable password. */
-        return substr(self::CONSONANTS, mt_rand(0, strlen(self::CONSONANTS) - 1), 1) .
-            substr(self::VOWELS, mt_rand(0, strlen(self::VOWELS) - 1), 1) .
-            substr(self::CONSONANTS, mt_rand(0, strlen(self::CONSONANTS) - 1), 1) .
-            substr(self::VOWELS, mt_rand(0, strlen(self::VOWELS) - 1), 1) .
-            substr(self::CONSONANTS, mt_rand(0, strlen(self::CONSONANTS) - 1), 1) .
-            substr(self::NUMBERS, mt_rand(0, strlen(self::NUMBERS) - 1), 1) .
-            substr(self::NUMBERS, mt_rand(0, strlen(self::NUMBERS) - 1), 1);
+        return substr(self::CONSONANTS, mt_rand(0, strlen(self::CONSONANTS) - 1), 1)
+            . substr(self::VOWELS, mt_rand(0, strlen(self::VOWELS) - 1), 1)
+            . substr(self::CONSONANTS, mt_rand(0, strlen(self::CONSONANTS) - 1), 1)
+            . substr(self::VOWELS, mt_rand(0, strlen(self::VOWELS) - 1), 1)
+            . substr(self::CONSONANTS, mt_rand(0, strlen(self::CONSONANTS) - 1), 1)
+            . substr(self::NUMBERS, mt_rand(0, strlen(self::NUMBERS) - 1), 1)
+            . substr(self::NUMBERS, mt_rand(0, strlen(self::NUMBERS) - 1), 1);
     }
 
     /**
@@ -407,12 +407,12 @@ class Horde_Auth
     public static function checkPasswordPolicy($password, array $policy)
     {
         // Check max/min lengths if specified in the policy.
-        if (isset($policy['minLength']) &&
-            strlen($password) < $policy['minLength']) {
+        if (isset($policy['minLength'])
+            && strlen($password) < $policy['minLength']) {
             throw new Horde_Auth_Exception(sprintf(Horde_Auth_Translation::t("The password must be at least %d characters long!"), $policy['minLength']));
         }
-        if (isset($policy['maxLength']) &&
-            strlen($password) > $policy['maxLength']) {
+        if (isset($policy['maxLength'])
+            && strlen($password) > $policy['maxLength']) {
             throw new Horde_Auth_Exception(sprintf(Horde_Auth_Translation::t("The password is too long; passwords may not be more than %d characters long!"), $policy['maxLength']));
         }
 
@@ -496,8 +496,8 @@ class Horde_Auth
     ) {
         // Check for pass == dict, simple reverse strings, etc.
         foreach ($dict as $test) {
-            if ((strcasecmp($password, $test) == 0) ||
-                (strcasecmp($password, strrev($test)) == 0)) {
+            if ((strcasecmp($password, $test) == 0)
+                || (strcasecmp($password, strrev($test)) == 0)) {
                 throw new Horde_Auth_Exception(Horde_Auth_Translation::t("The password is too simple to guess."));
             }
         }

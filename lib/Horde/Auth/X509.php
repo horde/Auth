@@ -98,16 +98,16 @@ class Horde_Auth_X509 extends Horde_Auth_Base
             throw new Horde_Auth_Exception('SSL not enabled on server.');
         }
 
-        if (empty($_SERVER[$this->_params['username_field']]) ||
-            empty($_SERVER[$this->_params['certificate_field']])) {
+        if (empty($_SERVER[$this->_params['username_field']])
+            || empty($_SERVER[$this->_params['certificate_field']])) {
             return false;
         }
 
         // Valid for client auth?
         $cert = openssl_x509_read($_SERVER[$this->_params['certificate_field']]);
-        if (!$this->_params['ignore_purpose'] &&
-            !openssl_x509_checkpurpose($cert, X509_PURPOSE_SSL_CLIENT) &&
-            !openssl_x509_checkpurpose($cert, X509_PURPOSE_ANY)) {
+        if (!$this->_params['ignore_purpose']
+            && !openssl_x509_checkpurpose($cert, X509_PURPOSE_SSL_CLIENT)
+            && !openssl_x509_checkpurpose($cert, X509_PURPOSE_ANY)) {
             return false;
         }
 
