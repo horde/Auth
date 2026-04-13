@@ -29,9 +29,9 @@ class SqlTestBase extends BaseTestCase
     {
         $dir = dirname(__FILE__, 3) . '/migration/Horde/Auth';
         if (!is_dir($dir)) {
-            throw new \RuntimeException("Did not find Horde Auth migration files in $dir");
+            throw new RuntimeException("Did not find Horde Auth migration files in $dir");
         }
-        self::$migrator = new \Horde_Db_Migration_Migrator(
+        self::$migrator = new Horde_Db_Migration_Migrator(
             self::$db,
             null,
             ['migrationsPath' => $dir,
@@ -39,7 +39,7 @@ class SqlTestBase extends BaseTestCase
         );
         self::$migrator->up();
 
-        self::$auth = new \Horde_Auth_Sql(['db' => self::$db, 'encryption' => 'plain']);
+        self::$auth = new Horde_Auth_Sql(['db' => self::$db, 'encryption' => 'plain']);
         // Don't rely on auth->addUser as this is the unit under test
         $row = "INSERT INTO horde_users VALUES ('mozilla', 'liketokyo', NULL, NULL);";
         self::$db->execute($row);

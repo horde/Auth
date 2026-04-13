@@ -46,7 +46,7 @@ class SqlLockTestBase extends SqlTestBase
             return;
         }
 
-        self::$locksMigrator = new \Horde_Db_Migration_Migrator(
+        self::$locksMigrator = new Horde_Db_Migration_Migrator(
             self::$db,
             null,
             ['migrationsPath' => $lockMigrationsPath,
@@ -54,9 +54,9 @@ class SqlLockTestBase extends SqlTestBase
         );
         self::$locksMigrator->up();
 
-        self::$locks = new \Horde_Lock_Sql(['db' => self::$db]);
+        self::$locks = new Horde_Lock_Sql(['db' => self::$db]);
 
-        self::$auth = new \Horde_Auth_Sql(['db' => self::$db,
+        self::$auth = new Horde_Auth_Sql(['db' => self::$db,
             'encryption' => 'plain',
             'lock_api'   => self::$locks,
         ]);
@@ -87,7 +87,7 @@ class SqlLockTestBase extends SqlTestBase
 
     public function testLockUserTwiceFails()
     {
-        $this->expectException(\Horde_Auth_Exception::class);
+        $this->expectException(Horde_Auth_Exception::class);
         self::$auth->lockUser('konqui');
         self::$auth->lockUser('konqui');
     }

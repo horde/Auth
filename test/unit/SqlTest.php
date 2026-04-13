@@ -21,6 +21,7 @@ use Horde_Db_Adapter;
 use Horde_Auth_Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
+use ReflectionMethod;
 
 #[CoversClass(Horde_Auth_Sql::class)]
 class SqlTest extends BaseTestCase
@@ -145,7 +146,7 @@ class SqlTest extends BaseTestCase
             'encryption' => 'md5-hex',
         ]);
 
-        $method = new \ReflectionMethod($driver, '_authenticate');
+        $method = new ReflectionMethod($driver, '_authenticate');
         $method->setAccessible(true);
         $method->invoke($driver, 'testuser', ['password' => 'testpass']);
         $this->assertTrue(true);
@@ -170,7 +171,7 @@ class SqlTest extends BaseTestCase
             'encryption' => 'md5-hex',
         ]);
 
-        $method = new \ReflectionMethod($driver, '_authenticate');
+        $method = new ReflectionMethod($driver, '_authenticate');
         $method->setAccessible(true);
 
         $this->expectException(Horde_Auth_Exception::class);
@@ -190,7 +191,7 @@ class SqlTest extends BaseTestCase
 
         $driver = new Horde_Auth_Sql(['db' => $this->db]);
 
-        $method = new \ReflectionMethod($driver, '_authenticate');
+        $method = new ReflectionMethod($driver, '_authenticate');
         $method->setAccessible(true);
 
         $this->expectException(Horde_Auth_Exception::class);

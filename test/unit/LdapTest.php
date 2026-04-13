@@ -27,6 +27,8 @@ use Horde_Exception_NotFound;
 use Horde_Exception_Ldap;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
+use ArrayIterator;
+use ReflectionMethod;
 
 #[CoversClass(Horde_Auth_Ldap::class)]
 class LdapTest extends BaseTestCase
@@ -99,7 +101,7 @@ class LdapTest extends BaseTestCase
             'password_expiration' => 'no',
         ]);
 
-        $method = new \ReflectionMethod($this->driver, '_authenticate');
+        $method = new ReflectionMethod($this->driver, '_authenticate');
         $method->setAccessible(true);
 
         $this->expectException(Horde_Auth_Exception::class);
@@ -129,7 +131,7 @@ class LdapTest extends BaseTestCase
             'password_expiration' => 'no',
         ]);
 
-        $method = new \ReflectionMethod($this->driver, '_authenticate');
+        $method = new ReflectionMethod($this->driver, '_authenticate');
         $method->setAccessible(true);
 
         $this->expectException(Horde_Auth_Exception::class);
@@ -189,7 +191,7 @@ class LdapTest extends BaseTestCase
         $entry2->expects($this->once())->method('exists')->with('uid')->willReturn(true);
         $entry2->expects($this->once())->method('getValue')->with('uid', 'single')->willReturn('user2');
 
-        $searchResult = new \ArrayIterator([$entry1, $entry2]);
+        $searchResult = new ArrayIterator([$entry1, $entry2]);
 
         $this->ldap->expects($this->once())
             ->method('search')

@@ -20,6 +20,7 @@ use Horde_Auth_Pam;
 use Horde_Auth_Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\Attributes\RequiresPhpExtension;
+use ReflectionMethod;
 
 #[CoversClass(Horde_Auth_Pam::class)]
 class PamTest extends BaseTestCase
@@ -69,7 +70,7 @@ class PamTest extends BaseTestCase
         }
 
         $driver = new Horde_Auth_Pam();
-        $method = new \ReflectionMethod($driver, '_authenticate');
+        $method = new ReflectionMethod($driver, '_authenticate');
         $method->setAccessible(true);
 
         $this->expectException(Horde_Auth_Exception::class);

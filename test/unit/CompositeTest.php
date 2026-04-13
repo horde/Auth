@@ -21,6 +21,7 @@ use Horde_Auth_Base;
 use Horde_Auth_Exception;
 use InvalidArgumentException;
 use PHPUnit\Framework\Attributes\CoversClass;
+use ReflectionMethod;
 
 #[CoversClass(Horde_Auth_Composite::class)]
 class CompositeTest extends BaseTestCase
@@ -112,7 +113,7 @@ class CompositeTest extends BaseTestCase
             'admin_driver' => $this->adminDriver,
         ]);
 
-        $method = new \ReflectionMethod($driver, '_authenticate');
+        $method = new ReflectionMethod($driver, '_authenticate');
         $method->setAccessible(true);
 
         $this->expectException(Horde_Auth_Exception::class);

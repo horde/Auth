@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 2006 9Star Research, Inc. http://www.protectnetwork.org/
+ * Copyright 2006-2026 9Star Research, Inc. http://www.protectnetwork.org/
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.

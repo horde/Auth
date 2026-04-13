@@ -1,7 +1,9 @@
 <?php
 
+use Horde\Util\Util;
+
 /**
- * Copyright 2002-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 2002-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -61,7 +63,7 @@ class Horde_Auth_Radius extends Horde_Auth_Base
      */
     public function __construct(array $params = [])
     {
-        if (!Horde_Util::extensionExists('radius')) {
+        if (!Util::extensionExists('radius')) {
             throw new Horde_Auth_Exception(__CLASS__ . ': requires the radius PECL extension to be loaded.');
         }
 

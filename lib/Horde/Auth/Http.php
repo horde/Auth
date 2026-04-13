@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -128,7 +128,11 @@ class Horde_Auth_Http extends Horde_Auth_Base
         }
 
         $this->_credentials['userId'] = $_SERVER['PHP_AUTH_USER'];
-        $this->_credentials['credentials'] = [
+        /**
+         * WARNING: Horde_Util::dispelMagicQuotes() removed in PSR-4 version
+         * Magic quotes are obsolete in PHP 8+. Remove this call.
+         */
+$this->_credentials['credentials'] = [
             'password' => Horde_Util::dispelMagicQuotes($_SERVER['PHP_AUTH_PW']),
         ];
 

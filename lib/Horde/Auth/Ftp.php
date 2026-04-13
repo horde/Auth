@@ -1,7 +1,9 @@
 <?php
 
+use Horde\Util\Util;
+
 /**
- * Copyright 1999-2017 Horde LLC (http://www.horde.org/)
+ * Copyright 1999-2026 Horde LLC (http://www.horde.org/)
  *
  * See the enclosed file LICENSE for license information (LGPL). If you did
  * not receive this file, see http://www.horde.org/licenses/lgpl21.
@@ -41,7 +43,7 @@ class Horde_Auth_Ftp extends Horde_Auth_Base
      */
     public function __construct(array $params = [])
     {
-        if (!Horde_Util::extensionExists('ftp')) {
+        if (!Util::extensionExists('ftp')) {
             throw new Horde_Auth_Exception(__CLASS__ . ': Required FTP extension not found. Compile PHP with the --enable-ftp switch.');
         }
 

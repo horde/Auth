@@ -19,6 +19,7 @@ use Horde\Auth\Test\BaseTestCase;
 use Horde_Auth_Auto;
 use Horde_Auth_Exception;
 use PHPUnit\Framework\Attributes\CoversClass;
+use ReflectionMethod;
 
 #[CoversClass(Horde_Auth_Auto::class)]
 class AutoTest extends BaseTestCase
@@ -115,7 +116,7 @@ class AutoTest extends BaseTestCase
     public function testProtectedAuthenticateThrowsUnsupportedException()
     {
         $driver = new Horde_Auth_Auto();
-        $method = new \ReflectionMethod($driver, '_authenticate');
+        $method = new ReflectionMethod($driver, '_authenticate');
         $method->setAccessible(true);
 
         $this->expectException(Horde_Auth_Exception::class);
