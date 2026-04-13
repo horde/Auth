@@ -21,7 +21,7 @@
             "role": "lead"
         }
     ],
-    "time": "2026-03-31",
+    "time": "2026-04-13",
     "repositories": [],
     "require": {
         "horde/horde-installer-plugin": "dev-FRAMEWORK_6_0 || ^3 || ^2",
@@ -39,7 +39,6 @@
         "horde/history": "^3 || dev-FRAMEWORK_6_0",
         "horde/lock": "^3 || dev-FRAMEWORK_6_0",
         "horde/imap_client": "^3 || dev-FRAMEWORK_6_0",
-        "horde/kolab_session": "^3 || dev-FRAMEWORK_6_0",
         "horde/ldap": "^3 || dev-FRAMEWORK_6_0",
         "horde/imsp": "^3 || dev-FRAMEWORK_6_0",
         "horde/http": "^3 || dev-FRAMEWORK_6_0",
