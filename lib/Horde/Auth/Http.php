@@ -132,7 +132,7 @@ class Horde_Auth_Http extends Horde_Auth_Base
          * WARNING: Horde_Util::dispelMagicQuotes() removed in PSR-4 version
          * Magic quotes are obsolete in PHP 8+. Remove this call.
          */
-$this->_credentials['credentials'] = [
+        $this->_credentials['credentials'] = [
             'password' => Horde_Util::dispelMagicQuotes($_SERVER['PHP_AUTH_PW']),
         ];
 
